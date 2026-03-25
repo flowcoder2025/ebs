@@ -1,0 +1,52 @@
+{
+  "teams": {
+    "frontend": {
+      "owns": [
+        "src/app/**",
+        "src/components/**"
+      ],
+      "description": "UI 컴포넌트, 페이지, 레이아웃"
+    },
+    "backend": {
+      "owns": [
+        "src/api/**",
+        "src/lib/**"
+      ],
+      "description": "API 라우트, 서버 로직, 유틸리티"
+    },
+    "qa": {
+      "owns": [
+        "e2e/**",
+        "tests/**",
+        "__tests__/**"
+      ],
+      "description": "E2E 테스트, 유닛 테스트"
+    },
+    "devops": {
+      "owns": [
+        ".github/**",
+        ".claude/**",
+        ".flowset/**"
+      ],
+      "description": "CI/CD, 프로젝트 설정, FlowSet"
+    },
+    "planning": {
+      "owns": [
+        "docs/**",
+        "wireframes/**"
+      ],
+      "description": "문서, 와이어프레임"
+    }
+  },
+  "shared": [
+    "package.json",
+    "tsconfig.json",
+    "prisma/schema.prisma"
+  ],
+  "crossTeamReview": [
+    ".flowset/contracts/**",
+    "src/types/**",
+    "prisma/schema.prisma",
+    "package.json"
+  ]
+}
