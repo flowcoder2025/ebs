@@ -29,9 +29,11 @@ issues=()
 if [[ -d ".claude/memory/rag" ]]; then
   rag_needed=false
   reasons=""
-  echo "$changed_files" | grep -qE '^(src/)?app/api/' 2>/dev/null && { rag_needed=true; reasons+="API 변경, "; }
-  echo "$changed_files" | grep -qE 'page\.tsx$' 2>/dev/null && { rag_needed=true; reasons+="페이지 변경, "; }
-  echo "$changed_files" | grep -qE '^prisma/' 2>/dev/null && { rag_needed=true; reasons+="스키마 변경, "; }
+  echo "$changed_files" | grep -qE '^production/prompts/' 2>/dev/null && { rag_needed=true; reasons+="프롬프트 변경, "; }
+  echo "$changed_files" | grep -qE '^production/characters/' 2>/dev/null && { rag_needed=true; reasons+="캐릭터 변경, "; }
+  echo "$changed_files" | grep -qE '^production/storyboard/' 2>/dev/null && { rag_needed=true; reasons+="스토리보드 변경, "; }
+  echo "$changed_files" | grep -qE '^production/episodes/' 2>/dev/null && { rag_needed=true; reasons+="에피소드 변경, "; }
+  echo "$changed_files" | grep -qE '^submission/' 2>/dev/null && { rag_needed=true; reasons+="제출서류 변경, "; }
 
   if [[ "$rag_needed" == true ]]; then
     rag_updated=false
@@ -120,6 +122,15 @@ if [[ -f ".flowsetrc" ]]; then
     # C. 팀 state 업데이트 (팀 모드만)
     if [[ -n "$local_team" ]]; then
       vault_sync_team_state "$local_team" "$summary" 2>/dev/null || true
+    fi
+
+    # D. 로컬 RAG → Vault 동기화
+    if [[ -d ".claude/memory/rag" ]]; then
+      for f in .claude/memory/rag/*.md; do
+        [[ -f "$f" ]] || continue
+        fname=$(basename "$f")
+        vault_write "ebs/rag/${fname}" "$(cat "$f")" 2>/dev/null || true
+      done
     fi
   fi
 fi
