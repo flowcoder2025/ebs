@@ -72,8 +72,10 @@ deformed plants, floating objects, impossible geometry
 ```
 masterpiece, best quality, watercolor animation style, hand-painted texture, soft brush strokes,
 7-year-old Korean girl Choeun in cozy garden, curious bright expression,
-short black hair with yellow hairband, white t-shirt with rainbow embroidery, blue overalls,
-holding a magnifying glass up to eye level, examining a water drop on a leaf,
+short bobbed black hair with a single tiny braid on the right side tied with a sky-blue bead, round face with large expressive dark brown eyes,
+wearing a pastel mint field-explorer vest over a cream-colored long-sleeve shirt, khaki cargo shorts with oversized pockets,
+mismatched socks and worn brown lace-up boots, a brass magnifying glass hanging from a leather cord around her neck,
+holding the brass magnifying glass up to eye level, examining a water drop on a leaf,
 medium shot transitioning to face close-up, soft focus background,
 warm afternoon sunlight on face, sparkling eyes full of wonder and curiosity,
 watercolor skin tones with rosy cheeks, gentle shading,

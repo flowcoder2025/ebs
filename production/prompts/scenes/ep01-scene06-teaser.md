@@ -18,8 +18,10 @@
 ```
 masterpiece, best quality, watercolor animation style, hand-painted texture, soft brush strokes,
 7-year-old Korean girl Choeun in garden, gazing at a beautiful rose bush with curiosity,
-short black hair with yellow hairband, white t-shirt with rainbow embroidery, blue overalls,
-holding magnifying glass up toward a blooming red rose, tilting head with wonder,
+short bobbed black hair with a single tiny braid on the right side tied with a sky-blue bead, round face with large expressive dark brown eyes,
+wearing a pastel mint field-explorer vest over a cream-colored long-sleeve shirt, khaki cargo shorts with oversized pockets,
+mismatched socks and worn brown lace-up boots, a brass magnifying glass hanging from a leather cord around her neck,
+holding the brass magnifying glass up toward a blooming red rose, tilting head with wonder,
 mischievous excited smile, eyes already imagining the next microscopic adventure,
 warm late afternoon golden sunlight, garden bathed in amber glow,
 vibrant red and pink roses in foreground, lush green garden background,
