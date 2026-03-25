@@ -1,51 +1,62 @@
-# ebs
+# MICRO VOYAGER — 마이크로 보이저
 
 ## 프로젝트 정보
-- **이름**: ebs
-- **타입**: typescript
-- **설명**: EBS 프로젝트
+- **이름**: ebs (마이크로 보이저)
+- **타입**: AI 애니메이션 제작
+- **공모**: 2026년 EBS 생성형 AI 애니메이션 시리즈 공동제작
+- **마감**: 2026-03-31
+- **형태**: TV 시리즈 5분 x 10부작
 
-## 빌드/테스트
-```bash
-npm ci          # 의존성 설치
-npm run lint    # 린트
-npm run build   # 빌드
-npm test        # 테스트
-```
+## 작품 개요
+호기심 많은 7살 소녀 박초은이가 과학자 할아버지의 발명품 '마이크로 렌즈'를 통해
+극미시 세계로 들어가 경이로운 자연을 탐험하는 과학 모험 애니메이션.
+
+## AI 제작 파이프라인
+| 단계 | 도구 |
+|------|------|
+| 컨셉 아트 / 캐릭터 디자인 | ComfyUI (SDXL + ControlNet) |
+| 캐릭터 일관성 | ComfyUI (IP-Adapter + LoRA) |
+| 배경 영상 | Runway / Kling (img2video) |
+| 캐릭터 애니메이션 | ComfyUI (AnimateDiff) |
+| 합성/편집 | After Effects / DaVinci Resolve |
+| 후반 작업 | EBS 담당 (더빙/음악/음향/믹싱) |
 
 ## 구조
 ```
-src/                    → 소스 코드
-wireframes/             → 와이어프레임 HTML (PRD 확정 시 생성)
-docs/                   → 문서 계층구조 (L0~L4)
-.flowset/                 → FlowSet 설정
-.flowset/requirements.md  → 사용자 원본 요구사항 (수정 금지)
-.flowset/contracts/       → 팀 간 API 표준 + 데이터 흐름 계약 (v3.0)
-.flowset/ownership.json   → 팀별 소유 디렉토리 매핑 (v3.0)
-.github/                → CI/CD 워크플로우
-.claude/rules/          → 프로젝트 규칙 (자동 로드)
-.claude/agents/         → Agent Teams 팀 역할 정의 (v3.0)
-.claude/memory/rag/     → RAG 참조 문서
+production/
+  characters/         → 캐릭터별 레퍼런스, 생성물, LoRA
+  storyboard/         → 씬 브레이크다운, 비주얼 디렉션
+  episodes/           → 에피소드별 에셋 (컨셉아트, 배경, 애니메이션, 합성)
+  prompts/            → AI 생성 프롬프트 (캐릭터, 씬, 워크플로우)
+  assets/             → 음악, 효과음, 더빙
+submission/           → 공모 제출 서류
+docs/                 → 문서 계층구조 (L0~L4)
+.flowset/             → FlowSet 설정 + 팀 관리
+.claude/agents/       → Agent Teams 팀 역할 (감독/캐릭터/배경/애니/서류)
 ```
 
-## 핵심 규칙 (hook으로 강제 불가능한 판단 영역 — 반드시 숙지)
-1. **requirements.md 수정 금지**: 사용자 원본 요구사항. 범위 축소 시 사용자 승인 필수.
-2. **요구사항 충실 이행**: "나중에", "Phase 2로", "일단 빼고" 금지. 어려우면 확인을 구할 것.
-3. **머지 확인 후 다음**: PR 머지 완료 → `git pull` → 다음 브랜치. 이전 PR 머지 전 다음 작업 금지.
-4. **코드 숙지 먼저**: 수정 전 관련 파일 전문 읽기. 추측으로 구현 금지.
-5. **영향도 평가**: 변경이 영향을 미치는 모든 파일/API/페이지 사전 파악.
-6. **전수 조사**: 동일 패턴이 다른 곳에도 있는지 전수 검색. 부분 수정 금지.
-7. **사이드이펙트 사전 분석**: 깨질 수 있는 기존 기능 미리 식별. 한쪽 고치면서 다른 쪽 깨지는 해결 금지.
-8. **E2E = 브라우저 UI 조작**: `request.get/post`는 E2E가 아님. `page.goto → fill → click → 검증` 필수.
+## 팀 구성
+| 팀 | 역할 | 담당 |
+|------|------|------|
+| director | 감독/PD | 스토리보드, 씬 구성, 품질 관리 |
+| character | 캐릭터 | 디자인 프롬프트, 스타일가이드, LoRA |
+| visual | 배경/씬 | 미시세계 프롬프트, ComfyUI 워크플로우 |
+| animation | 애니메이션 | 모션 생성, 합성, 편집 가이드 |
+| submission | 제출 서류 | 신청서, AI기술증빙, 포트폴리오 |
 
-## 자동 강제 (hook/validate/검증 에이전트 — 사람 개입 없이 동작)
-- **검증 에이전트**: 소스 3파일+ 변경 시 자동 실행 — requirements.md vs 구현 대조, 누락/불완전 감지
-- scope creep (10파일 초과) → validate 경고
-- TODO/placeholder/stub → validate 경고
-- .env/package-lock 수정 → validate 경고
-- API 형식 미준수 → validate 경고
-- RAG 미업데이트 → Stop hook 경고
-- E2E API shortcut → Stop hook 경고
-- requirements.md 수정 → validate 차단 + 자동 복원
-- TDD 미수행 (TESTS_ADDED=0) → validate 경고
-- GET/POST 수용 기준 미충족 → validate 경고
+## 핵심 규칙
+1. **requirements.md 수정 금지**: 사용자 원본 요구사항. 범위 축소 시 사용자 승인 필수.
+2. **작품소개서 기준 준수**: `micro_voyager_작품소개서.pdf`의 캐릭터/에피소드/비주얼 디렉션 충실 반영.
+3. **과학적 정확성**: 각 에피소드의 과학 주제 정확하게 반영. 교육 포인트 필수 포함.
+4. **비주얼 이중 레이어**: 현실 세계(수채화풍) ↔ 미시 세계(AI 초현실) 구분 철저.
+5. **캐릭터 일관성**: IP-Adapter + LoRA로 에피소드 간 캐릭터 동일성 유지.
+6. **에피소드별 차별화**: 매 에피소드 고유한 비주얼 톤 + 색감 (비주얼 디렉션 참조).
+
+## 제출 체크리스트 (마감: 2026-03-31)
+- [ ] 공모전 신청서 (영상 링크 포함)
+- [ ] 3분 이상 영상 (MP4, FHD 16:9)
+- [ ] 작품 소개서 (PDF) — 완료
+- [ ] 참가 동의서
+- [ ] 개인정보 수집·이용 안내문
+- [ ] AI 기술 증빙자료
+- [ ] 포트폴리오 (선택)

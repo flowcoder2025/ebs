@@ -1,26 +1,40 @@
 {
   "teams": {
-    "frontend": {
+    "director": {
       "owns": [
-        "src/app/**",
-        "src/components/**"
+        "production/storyboard/**",
+        "docs/**"
       ],
-      "description": "UI 컴포넌트, 페이지, 레이아웃"
+      "description": "스토리보드, 씬 구성, 비주얼 디렉션, 품질 관리"
     },
-    "backend": {
+    "character": {
       "owns": [
-        "src/api/**",
-        "src/lib/**"
+        "production/characters/**",
+        "production/prompts/characters/**"
       ],
-      "description": "API 라우트, 서버 로직, 유틸리티"
+      "description": "캐릭터 디자인 프롬프트, 스타일가이드, LoRA 관리"
     },
-    "qa": {
+    "visual": {
       "owns": [
-        "e2e/**",
-        "tests/**",
-        "__tests__/**"
+        "production/episodes/*/concept-art/**",
+        "production/episodes/*/backgrounds/**",
+        "production/prompts/scenes/**"
       ],
-      "description": "E2E 테스트, 유닛 테스트"
+      "description": "미시세계 배경 프롬프트, ComfyUI 워크플로우, 비주얼 생성"
+    },
+    "animation": {
+      "owns": [
+        "production/episodes/*/animation/**",
+        "production/episodes/*/composited/**",
+        "production/prompts/workflows/**"
+      ],
+      "description": "모션 생성, 합성 가이드, 편집 타임라인"
+    },
+    "submission": {
+      "owns": [
+        "submission/**"
+      ],
+      "description": "공모 신청서, AI 기술 증빙, 포트폴리오"
     },
     "devops": {
       "owns": [
@@ -29,24 +43,15 @@
         ".flowset/**"
       ],
       "description": "CI/CD, 프로젝트 설정, FlowSet"
-    },
-    "planning": {
-      "owns": [
-        "docs/**",
-        "wireframes/**"
-      ],
-      "description": "문서, 와이어프레임"
     }
   },
   "shared": [
-    "package.json",
-    "tsconfig.json",
-    "prisma/schema.prisma"
+    "CLAUDE.md",
+    ".gitignore",
+    "production/assets/**"
   ],
   "crossTeamReview": [
-    ".flowset/contracts/**",
-    "src/types/**",
-    "prisma/schema.prisma",
-    "package.json"
+    "production/storyboard/**",
+    ".flowset/contracts/**"
   ]
 }
