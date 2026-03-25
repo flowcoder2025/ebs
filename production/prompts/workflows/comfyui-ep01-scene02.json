@@ -1,0 +1,503 @@
+{
+  "_meta": {
+    "title": "WI-009 EP01 Scene 2: 미시 세계 진입 — 배경 이미지 5종 (키프레임 3 + 파노라마 2)",
+    "description": "Scene 2 (0:30~0:45)의 2개 서브씬. 2-1은 현실→미시 전환 키프레임 3장, 2-2는 물방울 내부 파노라마 2장.",
+    "version": "1.0.0",
+    "episode": "EP01",
+    "scene": "Scene 2 — 미시 세계 진입",
+    "style": "transition (수채화→프리즘) + surreal prismatic (미시세계)",
+    "outputs": [
+      "bg-s02-01a-transition-watercolor (키프레임 A: 수채화 초은이 렌즈 장착)",
+      "bg-s02-01b-transition-particle (키프레임 B: 파티클 분해 중간)",
+      "bg-s02-01c-transition-prism (키프레임 C: 프리즘 세계 입구)",
+      "bg-s02-02a-interior-panorama (물방울 내부 파노라마 좌)",
+      "bg-s02-02b-interior-panorama (물방울 내부 파노라마 우)"
+    ],
+    "source_prompts": "production/prompts/scenes/ep01-scene02-transition.md",
+    "runway_prompts": "production/prompts/scenes/ep01-runway-prompts.md (Scene 2)",
+    "notes": "2-1 키프레임 3장은 Runway Gen-3에서 시작/끝 이미지로 입력하여 전환 보간. 2-2는 패닝용 파노라마."
+  },
+  "1": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "DreamShaperXL_Turbo_v2_1.safetensors"
+    }
+  },
+  "2": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "sdxl_vae.safetensors"
+    }
+  },
+  "3": {
+    "class_type": "LoraLoader",
+    "_meta": {
+      "title": "LoRA - Prismatic Surreal (미시세계)"
+    },
+    "inputs": {
+      "model": [
+        "1",
+        0
+      ],
+      "clip": [
+        "1",
+        1
+      ],
+      "lora_name": "ral-crztlgls-sdxl.safetensors",
+      "strength_model": 0.8,
+      "strength_clip": 0.8
+    }
+  },
+  "10": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "2-1A Positive — 키프레임 A: 수채화 초은이 렌즈 장착 (LoRA 없음 — 중립 베이스)"
+    },
+    "inputs": {
+      "clip": [
+        "1",
+        1
+      ],
+      "text": "masterpiece, best quality, watercolor animation style, hand-painted texture,\n7-year-old Korean girl putting on futuristic micro-lens goggles in a garden,\nshort bobbed black hair with a single tiny braid on the right side tied with a sky-blue bead,\nwearing a pastel mint field-explorer vest over a cream-colored long-sleeve shirt,\nmoment of putting the lens on, both hands near face adjusting the device,\nexcited expression, eyes wide with anticipation,\nwarm afternoon garden background, watercolor style,\ngentle golden sunlight, cozy atmosphere,\n16:9 aspect ratio, animation keyframe"
+    }
+  },
+  "11": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "2-1A Negative"
+    },
+    "inputs": {
+      "clip": [
+        "1",
+        1
+      ],
+      "text": "photorealistic, 3D render, CGI, dark mood, horror,\ntext, watermark, signature, logo,\nlow quality, blurry, pixelated,\ndeformed face, extra fingers, bad anatomy,\nsurreal prismatic style (this frame is still watercolor)"
+    }
+  },
+  "12": {
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "2-1A Latent 1920x1080"
+    },
+    "inputs": {
+      "width": 1920,
+      "height": 1080,
+      "batch_size": 1
+    }
+  },
+  "13": {
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "2-1A KSampler — 렌즈 장착 (중립 베이스, LoRA 없음)"
+    },
+    "inputs": {
+      "model": [
+        "1",
+        0
+      ],
+      "positive": [
+        "10",
+        0
+      ],
+      "negative": [
+        "11",
+        0
+      ],
+      "latent_image": [
+        "12",
+        0
+      ],
+      "seed": 904001,
+      "steps": 35,
+      "cfg": 7.0,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1.0
+    }
+  },
+  "14": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "13",
+        0
+      ],
+      "vae": [
+        "2",
+        0
+      ]
+    }
+  },
+  "15": {
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save 2-1A 렌즈 장착"
+    },
+    "inputs": {
+      "images": [
+        "14",
+        0
+      ],
+      "filename_prefix": "ep01-backgrounds/bg-s02-01a-transition-watercolor"
+    }
+  },
+  "20": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "2-1B Positive — 키프레임 B: 파티클 분해 중간"
+    },
+    "inputs": {
+      "clip": [
+        "1",
+        1
+      ],
+      "text": "masterpiece, best quality, magical transformation sequence,\nstyle morphing from soft watercolor to surreal prismatic digital art,\n7-year-old girl's body dissolving into thousands of luminous light particles,\nparticle dispersion effect radiating outward from futuristic goggles,\nrapid zoom-in through layers of reality, shrinking perspective,\nwatercolor brush strokes fragmenting into geometric light crystals,\nwarm earth tones transitioning to cool prismatic rainbow spectrum,\nmotion blur with streaking light trails,\nkaleidoscopic tunnel effect as scale shifts from macro to micro,\nhalf watercolor half prismatic crystal transition midpoint,\ngolden warm particles on left transforming to rainbow spectrum on right,\n16:9 aspect ratio, dynamic transformation keyframe"
+    }
+  },
+  "21": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "2-1B Negative"
+    },
+    "inputs": {
+      "clip": [
+        "1",
+        1
+      ],
+      "text": "static image, boring composition, horror transformation, body horror,\ndark palette, gothic, gloomy,\ntext, watermark, signature, logo,\nlow quality, blurry, pixelated,\nno color transition, flat 2D, no depth"
+    }
+  },
+  "22": {
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "2-1B Latent 1920x1080"
+    },
+    "inputs": {
+      "width": 1920,
+      "height": 1080,
+      "batch_size": 1
+    }
+  },
+  "23": {
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "2-1B KSampler — 파티클 분해 (중립 베이스)"
+    },
+    "inputs": {
+      "model": [
+        "1",
+        0
+      ],
+      "positive": [
+        "20",
+        0
+      ],
+      "negative": [
+        "21",
+        0
+      ],
+      "latent_image": [
+        "22",
+        0
+      ],
+      "seed": 904002,
+      "steps": 35,
+      "cfg": 7.0,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1.0
+    }
+  },
+  "24": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "23",
+        0
+      ],
+      "vae": [
+        "2",
+        0
+      ]
+    }
+  },
+  "25": {
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save 2-1B 파티클 분해"
+    },
+    "inputs": {
+      "images": [
+        "24",
+        0
+      ],
+      "filename_prefix": "ep01-backgrounds/bg-s02-01b-transition-particle"
+    }
+  },
+  "30": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "2-1C Positive — 키프레임 C: 프리즘 세계 입구"
+    },
+    "inputs": {
+      "clip": [
+        "3",
+        1
+      ],
+      "text": "masterpiece, best quality, ral-crztlgls, surreal prismatic digital art,\narriving at the boundary of a water drop, entering microscopic world,\nfull prismatic rainbow colors dominating the entire frame,\nkaleidoscopic tunnel of crystalline light structures,\nrainbow light refraction at maximum intensity,\ntransparent blue water surface boundary visible ahead,\nlight trails and luminous particles streaming toward the entry point,\ncool prismatic rainbow spectrum palette, transparent blue glow,\nsense of arriving at a new world, breathtaking portal moment,\n16:9 aspect ratio, surreal transformation keyframe"
+    }
+  },
+  "31": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "2-1C Negative"
+    },
+    "inputs": {
+      "clip": [
+        "3",
+        1
+      ],
+      "text": "watercolor style, warm earth tones, garden scene,\nstatic boring composition, dark gloomy,\ntext, watermark, signature, logo,\nlow quality, blurry, pixelated,\nflat 2D, no depth, no prismatic effect"
+    }
+  },
+  "32": {
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "2-1C Latent 1920x1080"
+    },
+    "inputs": {
+      "width": 1920,
+      "height": 1080,
+      "batch_size": 1
+    }
+  },
+  "33": {
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "2-1C KSampler — 프리즘 입구"
+    },
+    "inputs": {
+      "model": [
+        "3",
+        0
+      ],
+      "positive": [
+        "30",
+        0
+      ],
+      "negative": [
+        "31",
+        0
+      ],
+      "latent_image": [
+        "32",
+        0
+      ],
+      "seed": 904003,
+      "steps": 40,
+      "cfg": 6.5,
+      "sampler_name": "dpmpp_sde",
+      "scheduler": "karras",
+      "denoise": 1.0
+    }
+  },
+  "34": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "33",
+        0
+      ],
+      "vae": [
+        "2",
+        0
+      ]
+    }
+  },
+  "35": {
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save 2-1C 프리즘 입구"
+    },
+    "inputs": {
+      "images": [
+        "34",
+        0
+      ],
+      "filename_prefix": "ep01-backgrounds/bg-s02-01c-transition-prism"
+    }
+  },
+  "40": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "2-2 Positive — 물방울 내부 파노라마 (좌)"
+    },
+    "inputs": {
+      "clip": [
+        "3",
+        1
+      ],
+      "text": "masterpiece, best quality, ral-crztlgls, surreal microscopic universe art,\ninterior of a water drop seen from inside at molecular scale,\nprismatic rainbow world with light refracting in all directions,\ntransparent spherical walls of water surface visible as curved horizon,\nlight spectrum bands flowing like aurora borealis inside the drop,\ndistorted outside world visible through the curved water surface — garden appears warped and magnified,\nfloating microscopic particles catching prismatic light,\nwater molecules represented as connected translucent blue spheres (H2O molecular structure),\ncrystalline light pillars and rainbow caustic patterns on every surface,\ntransparent blue base tone with rainbow spectrum overlays,\nbioluminescent glow emanating from molecular structures,\npanoramic interior view left half, camera position looking left,\nsense of vast universe inside a tiny drop, cathedral-like scale perception,\ndreamy ethereal atmosphere, otherworldly beauty,\nscientific accuracy: light refraction creating real spectrum,\nsurface tension visible as a shimmering membrane boundary"
+    }
+  },
+  "41": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "2-2 Negative (공통)"
+    },
+    "inputs": {
+      "clip": [
+        "3",
+        1
+      ],
+      "text": "realistic underwater scene, ocean, swimming pool, aquarium,\ndark murky water, dirty water, cloudy liquid,\nno rainbow, no prismatic effect, monochrome, desaturated,\ntext, watermark, signature, logo,\nlow quality, blurry, pixelated, jpeg artifacts,\ncartoon bubble, soap bubble,\nflat 2D composition, no depth, no volumetric light,\nscary alien world, horror, dark atmosphere,\nfish, marine life, coral,\nwatercolor style"
+    }
+  },
+  "42": {
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "2-2 Latent 1920x1080"
+    },
+    "inputs": {
+      "width": 1920,
+      "height": 1080,
+      "batch_size": 1
+    }
+  },
+  "43": {
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "2-2A KSampler — 내부 파노라마 좌"
+    },
+    "inputs": {
+      "model": [
+        "3",
+        0
+      ],
+      "positive": [
+        "40",
+        0
+      ],
+      "negative": [
+        "41",
+        0
+      ],
+      "latent_image": [
+        "42",
+        0
+      ],
+      "seed": 905001,
+      "steps": 40,
+      "cfg": 8.0,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1.0
+    }
+  },
+  "44": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "43",
+        0
+      ],
+      "vae": [
+        "2",
+        0
+      ]
+    }
+  },
+  "45": {
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save 2-2A 내부 파노라마 좌"
+    },
+    "inputs": {
+      "images": [
+        "44",
+        0
+      ],
+      "filename_prefix": "ep01-backgrounds/bg-s02-02a-interior-panorama"
+    }
+  },
+  "50": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "2-2 Positive — 물방울 내부 파노라마 (우)"
+    },
+    "inputs": {
+      "clip": [
+        "3",
+        1
+      ],
+      "text": "masterpiece, best quality, ral-crztlgls, surreal microscopic universe art,\ninterior of a water drop seen from inside at molecular scale,\nprismatic rainbow world with light refracting in all directions,\ntransparent spherical walls of water surface visible as curved horizon,\nlight spectrum bands flowing like aurora borealis inside the drop,\nfloating microscopic particles catching prismatic light,\nwater molecules represented as connected translucent blue spheres (H2O molecular structure),\ncrystalline light pillars and rainbow caustic patterns on every surface,\ntransparent blue base tone with rainbow spectrum overlays,\nbioluminescent glow emanating from molecular structures,\npanoramic interior view right half, camera position looking right,\ntiny figure of a girl slowly appearing in the distance, looking around in wonder,\nsense of vast universe inside a tiny drop, cathedral-like scale perception,\ndreamy ethereal atmosphere, otherworldly beauty,\nscientific accuracy: light refraction creating real spectrum,\nsurface tension visible as a shimmering membrane boundary"
+    }
+  },
+  "51": {
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "2-2B Latent 1920x1080"
+    },
+    "inputs": {
+      "width": 1920,
+      "height": 1080,
+      "batch_size": 1
+    }
+  },
+  "52": {
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "2-2B KSampler — 내부 파노라마 우"
+    },
+    "inputs": {
+      "model": [
+        "3",
+        0
+      ],
+      "positive": [
+        "50",
+        0
+      ],
+      "negative": [
+        "41",
+        0
+      ],
+      "latent_image": [
+        "51",
+        0
+      ],
+      "seed": 905002,
+      "steps": 40,
+      "cfg": 8.0,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1.0
+    }
+  },
+  "53": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "52",
+        0
+      ],
+      "vae": [
+        "2",
+        0
+      ]
+    }
+  },
+  "54": {
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save 2-2B 내부 파노라마 우"
+    },
+    "inputs": {
+      "images": [
+        "53",
+        0
+      ],
+      "filename_prefix": "ep01-backgrounds/bg-s02-02b-interior-panorama"
+    }
+  }
+}
