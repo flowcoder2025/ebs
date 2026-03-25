@@ -25,14 +25,14 @@ choeun_base = "7-year-old Korean girl, short bobbed black hair with a single tin
 
 | 항목 | 권장 값 |
 |------|--------|
-| **Checkpoint** | dreamshaperXL_v21TurboDPMSDE.safetensors 또는 juggernautXL_v9.safetensors |
+| **Checkpoint** | DreamShaperXL_Turbo_v2_1.safetensors 또는 juggernautXL_v9.safetensors |
 | **Sampler** | DPM++ 2M Karras (수채화풍) / DPM++ SDE Karras (초현실) |
 | **Steps** | 30~40 |
 | **CFG Scale** | 6.5~7.5 |
 | **Resolution** | 1024x1024 (정사각) 또는 896x1152 (세로 캐릭터 시트) |
 | **Seed** | 캐릭터 일관성용 고정 시드 사용 권장 (IP-Adapter 병행 시 자유) |
 | **VAE** | sdxl_vae.safetensors |
-| **LoRA** | watercolor_style_sdxl (현실 세계) / prismatic_surreal_sdxl (미시 세계) |
+| **LoRA** | ral-wtrclr-sdxl (현실 세계, trigger: `ral-wtrclr`) / ral-crztlgls-sdxl (미시 세계, trigger: `ral-crztlgls`) |
 
 ---
 

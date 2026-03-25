@@ -1,0 +1,253 @@
+{
+  "_meta": {
+    "title": "WI-012 EP01 Scene 6: 다음 화 예고 — 배경 이미지 2종",
+    "description": "Scene 6 (2:45~3:00)의 1개 서브씬 2파트. 6-1A 초은이+장미꽃(수채화), 6-1B 장미꽃잎 매크로 줌(수채화→매크로 전환 + 미시 힌트).",
+    "version": "1.0.0",
+    "episode": "EP01",
+    "scene": "Scene 6 — 다음 화 예고",
+    "style": "watercolor + macro transition",
+    "outputs": [
+      "bg-s06-01a-rose-garden (초은이 + 장미꽃 수채화)",
+      "bg-s06-01b-rose-macro (장미꽃잎 매크로 + 미시 힌트)"
+    ],
+    "source_prompts": "production/prompts/scenes/ep01-scene06-teaser.md",
+    "runway_prompts": "production/prompts/scenes/ep01-runway-prompts.md (Scene 6)",
+    "notes": "키프레임 A→B를 Runway에 시작/끝 이미지로 입력. 줌 트랜지션은 Runway가 보간."
+  },
+  "1": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "DreamShaperXL_Turbo_v2_1.safetensors"
+    }
+  },
+  "2": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "sdxl_vae.safetensors"
+    }
+  },
+  "3": {
+    "class_type": "LoraLoader",
+    "_meta": {
+      "title": "LoRA - Watercolor Style (6-1A 수채화)"
+    },
+    "inputs": {
+      "model": [
+        "1",
+        0
+      ],
+      "clip": [
+        "1",
+        1
+      ],
+      "lora_name": "ral-wtrclr-sdxl.safetensors",
+      "strength_model": 0.7,
+      "strength_clip": 0.7
+    }
+  },
+  "4": {
+    "class_type": "LoraLoader",
+    "_meta": {
+      "title": "LoRA - Watercolor Style 약화 (6-1B 매크로 전환용)"
+    },
+    "inputs": {
+      "model": [
+        "1",
+        0
+      ],
+      "clip": [
+        "1",
+        1
+      ],
+      "lora_name": "ral-wtrclr-sdxl.safetensors",
+      "strength_model": 0.4,
+      "strength_clip": 0.4
+    }
+  },
+  "10": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "6-1A Positive — 초은이 + 장미꽃 수채화"
+    },
+    "inputs": {
+      "clip": [
+        "3",
+        1
+      ],
+      "text": "masterpiece, best quality, ral-wtrclr, watercolor animation style, hand-painted texture, soft brush strokes,\n7-year-old Korean girl Choeun in garden, gazing at a beautiful rose bush with curiosity,\nshort bobbed black hair with a single tiny braid on the right side tied with a sky-blue bead, round face with large expressive dark brown eyes,\nwearing a pastel mint field-explorer vest over a cream-colored long-sleeve shirt, khaki cargo shorts with oversized pockets,\nmismatched socks and worn brown lace-up boots, a brass magnifying glass hanging from a leather cord around her neck,\nholding the brass magnifying glass up toward a blooming red rose, tilting head with wonder,\nmischievous excited smile, eyes already imagining the next microscopic adventure,\nwarm late afternoon golden sunlight, garden bathed in amber glow,\nvibrant red and pink roses in foreground, lush green garden background,\nsoft watercolor rendering of rose petals with visible dew drops,\nmedium shot of Choeun, rose bush occupying right third of frame,\ndepth of field: Choeun in focus, garden background in soft watercolor bokeh,\nchildren's animation, Studio Ghibli-inspired warm ending moment,\nsense of curiosity never satisfied, promise of more adventures to come"
+    }
+  },
+  "11": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "6-1A Negative"
+    },
+    "inputs": {
+      "clip": [
+        "3",
+        1
+      ],
+      "text": "photorealistic, 3D render, CGI, plastic texture,\nsurreal prismatic style,\ndark mood, night scene, cold lighting,\nwilted roses, dead flowers, thorns prominent,\nadult proportions, mature face,\ntext, watermark, signature, logo, UI elements,\nlow quality, blurry, pixelated, jpeg artifacts, noise,\noversaturated, harsh shadows,\ndeformed face, extra fingers, bad anatomy,\nsad expression, bored look, disinterested pose,\nindoor scene, urban, artificial flowers"
+    }
+  },
+  "12": {
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "6-1A Latent 1920x1080"
+    },
+    "inputs": {
+      "width": 1920,
+      "height": 1080,
+      "batch_size": 1
+    }
+  },
+  "13": {
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "6-1A KSampler — 초은이 + 장미꽃"
+    },
+    "inputs": {
+      "model": [
+        "3",
+        0
+      ],
+      "positive": [
+        "10",
+        0
+      ],
+      "negative": [
+        "11",
+        0
+      ],
+      "latent_image": [
+        "12",
+        0
+      ],
+      "seed": 1202601,
+      "steps": 35,
+      "cfg": 7.5,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1.0
+    }
+  },
+  "14": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "13",
+        0
+      ],
+      "vae": [
+        "2",
+        0
+      ]
+    }
+  },
+  "15": {
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save 6-1A 초은이 + 장미꽃"
+    },
+    "inputs": {
+      "images": [
+        "14",
+        0
+      ],
+      "filename_prefix": "ep01-backgrounds/bg-s06-01a-rose-garden"
+    }
+  },
+  "20": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "6-1B Positive — 장미꽃잎 매크로 + 미시 힌트"
+    },
+    "inputs": {
+      "clip": [
+        "4",
+        1
+      ],
+      "text": "masterpiece, best quality, ral-wtrclr, watercolor-to-macro transition style,\nextreme close-up of a red rose petal, zooming into microscopic surface structure,\nmacro photography composition with watercolor artistic base gradually shifting,\nvisible petal surface texture: tiny cellular patterns, microscopic ridges and grooves,\nsurface cells arranged in cone-shaped papillae creating velvet-like texture,\nhint of surreal prismatic light beginning to emerge from the cellular structures,\na faint glow of otherworldly iridescence between the cells suggesting hidden microscopic universe,\nsoft transition from warm watercolor rendering to sharper macro detail,\nrose petal color: deep crimson red with pink gradients at edges,\ntiny water droplets on petal surface catching prismatic rainbow glints,\nthe very last frame hints at a vast microscopic world within the flower,\ncamera movement: zoomed deep into petal surface,\ncolor grading shifting from warm garden tones toward mysterious rose-red and magenta micro world,\nsense of invitation to the next adventure, cliffhanger ending,\nscientific accuracy: rose petal surface has conical epidermal cells (papillae) that create velvet appearance"
+    }
+  },
+  "21": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "6-1B Negative"
+    },
+    "inputs": {
+      "clip": [
+        "4",
+        1
+      ],
+      "text": "flat smooth petal surface,\nno zoom effect, no transition implied, static composition,\ncompletely surreal prismatic,\ndead wilted brown petal, dried flower, autumn decay,\ntext, watermark, signature, logo, UI elements,\nlow quality, blurry, pixelated, jpeg artifacts, noise,\nartificial plastic flower, silk flower texture,\nno cellular structure visible,\nfully realistic photograph only,\nblack background, dark void, scary microscopic view,\ncompletely watercolor only,\nincorrect cell structure"
+    }
+  },
+  "22": {
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "6-1B Latent 1920x1080"
+    },
+    "inputs": {
+      "width": 1920,
+      "height": 1080,
+      "batch_size": 1
+    }
+  },
+  "23": {
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "6-1B KSampler — 장미꽃잎 매크로"
+    },
+    "inputs": {
+      "model": [
+        "4",
+        0
+      ],
+      "positive": [
+        "20",
+        0
+      ],
+      "negative": [
+        "21",
+        0
+      ],
+      "latent_image": [
+        "22",
+        0
+      ],
+      "seed": 1203601,
+      "steps": 40,
+      "cfg": 8.0,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1.0
+    }
+  },
+  "24": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "23",
+        0
+      ],
+      "vae": [
+        "2",
+        0
+      ]
+    }
+  },
+  "25": {
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save 6-1B 장미꽃잎 매크로"
+    },
+    "inputs": {
+      "images": [
+        "24",
+        0
+      ],
+      "filename_prefix": "ep01-backgrounds/bg-s06-01b-rose-macro"
+    }
+  }
+}

@@ -10,19 +10,20 @@
 
 | 파일명 | 위치 | 용도 |
 |--------|------|------|
-| `dreamshaperXL_v21TurboDPMSDE.safetensors` | `models/checkpoints/` | 기본 SDXL 체크포인트 |
+| `DreamShaperXL_Turbo_v2_1.safetensors` | `models/checkpoints/` | 기본 SDXL 체크포인트 |
 | `sdxl_vae.safetensors` | `models/vae/` | SDXL VAE |
-| `watercolor_style_sdxl.safetensors` | `models/loras/` | 현실세계 수채화풍 LoRA |
-| `prismatic_surreal_sdxl.safetensors` | `models/loras/` | 미시세계 초현실 LoRA |
+| `ral-wtrclr-sdxl.safetensors` | `models/loras/` | 현실세계 수채화풍 LoRA (trigger: `ral-wtrclr`) |
+| `ral-crztlgls-sdxl.safetensors` | `models/loras/` | 미시세계 크리스탈/프리즘 LoRA (trigger: `ral-crztlgls`) |
 | `ip-adapter-plus_sdxl_vit-h.safetensors` | `models/ipadapter/` | IP-Adapter (캐릭터 일관성) |
 | `CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors` | `models/clip_vision/` | CLIP Vision (IP-Adapter용) |
 
 ### 대체 체크포인트
-- `juggernautXL_v9.safetensors` — dreamshaperXL이 없을 경우 사용 가능
+- `juggernautXL_v9.safetensors` — DreamShaperXL이 없을 경우 사용 가능
 
-### LoRA 준비 안내
-- `watercolor_style_sdxl`과 `prismatic_surreal_sdxl`은 Civitai 등에서 유사 LoRA를 다운로드하여 사용
-- 정확한 파일명이 다를 경우 워크플로우 JSON의 `lora_name` 값을 수정
+### LoRA 사용 안내
+- `ral-wtrclr-sdxl` 사용 시 positive 프롬프트 첫 토큰에 `ral-wtrclr` 추가 필수
+- `ral-crztlgls-sdxl` 사용 시 positive 프롬프트 첫 토큰에 `ral-crztlgls` 추가 필수
+- 워크플로우 JSON에는 이미 trigger word가 포함되어 있음
 
 ---
 
@@ -53,7 +54,7 @@
 | Ref04 표정(호기심) | `choeun-prompts.md` Prompt 04 | 0.6 | 1024x1024 |
 | Ref05 미시세계 정면 | `choeun-prompts.md` Prompt 07 | 0.5 | 896x1152 |
 
-> Ref05(미시세계)는 LoRA를 `prismatic_surreal_sdxl`로 교체, IP-Adapter weight를 0.5로 낮추어 스타일 전환 허용
+> Ref05(미시세계)는 LoRA를 `ral-crztlgls-sdxl`로 교체, IP-Adapter weight를 0.5로 낮추어 스타일 전환 허용
 
 ### Step 3: 할아버지 3종
 

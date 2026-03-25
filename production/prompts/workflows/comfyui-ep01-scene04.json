@@ -1,0 +1,689 @@
+{
+  "_meta": {
+    "title": "WI-011 EP01 Scene 4: 위기와 해결 — 배경 이미지 7종 (키프레임 포함)",
+    "description": "Scene 4 (1:30~2:15)의 3개 서브씬. 4-1 물방울 흔들림(키프레임 3장), 4-2 할아버지 무전(키프레임 2장), 4-3 협력 해결(키프레임 3장). 키프레임 기반으로 Runway에서 보간.",
+    "version": "1.0.0",
+    "episode": "EP01",
+    "scene": "Scene 4 — 위기와 해결",
+    "style": "surreal prismatic (불안정→안정 복원)",
+    "outputs": [
+      "bg-s04-01a-crisis-start (첫 흔들림)",
+      "bg-s04-01b-crisis-peak (최대 변형)",
+      "bg-s04-01c-crisis-hold (균형 유지)",
+      "bg-s04-02a-radio-light (빛 파동 시작)",
+      "bg-s04-02b-grandpa-reflect (할아버지 얼굴 반사)",
+      "bg-s04-03a-repair-rush (분자 틈으로 달려감)",
+      "bg-s04-03b-repair-restore (복원 완료 + 하이파이브)"
+    ],
+    "source_prompts": "production/prompts/scenes/ep01-scene04-crisis.md",
+    "runway_prompts": "production/prompts/scenes/ep01-runway-prompts.md (Scene 4)"
+  },
+  "1": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "DreamShaperXL_Turbo_v2_1.safetensors"
+    }
+  },
+  "2": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "sdxl_vae.safetensors"
+    }
+  },
+  "3": {
+    "class_type": "LoraLoader",
+    "_meta": {
+      "title": "LoRA - Prismatic Surreal 약화 (위기 불안정)"
+    },
+    "inputs": {
+      "model": [
+        "1",
+        0
+      ],
+      "clip": [
+        "1",
+        1
+      ],
+      "lora_name": "ral-crztlgls-sdxl.safetensors",
+      "strength_model": 0.6,
+      "strength_clip": 0.6
+    }
+  },
+  "4": {
+    "class_type": "LoraLoader",
+    "_meta": {
+      "title": "LoRA - Prismatic Surreal 표준 (무전/복원)"
+    },
+    "inputs": {
+      "model": [
+        "1",
+        0
+      ],
+      "clip": [
+        "1",
+        1
+      ],
+      "lora_name": "ral-crztlgls-sdxl.safetensors",
+      "strength_model": 0.7,
+      "strength_clip": 0.7
+    }
+  },
+  "5": {
+    "class_type": "LoraLoader",
+    "_meta": {
+      "title": "LoRA - Prismatic Surreal 강화 (복원 완료)"
+    },
+    "inputs": {
+      "model": [
+        "1",
+        0
+      ],
+      "clip": [
+        "1",
+        1
+      ],
+      "lora_name": "ral-crztlgls-sdxl.safetensors",
+      "strength_model": 0.8,
+      "strength_clip": 0.8
+    }
+  },
+  "10": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "4-1A Positive — 첫 흔들림"
+    },
+    "inputs": {
+      "clip": [
+        "3",
+        1
+      ],
+      "text": "masterpiece, best quality, ral-crztlgls, surreal microscopic universe art, dramatic tension scene,\nprismatic world inside water drop beginning to shake and distort,\ntransparent water walls trembling slightly, first signs of instability,\nlight spectrum showing initial instability — rainbow bands beginning to flicker,\ntiny girl (Choeun) and tardigrade (Moongi) noticing something wrong, alert expressions,\nChoeun looking up with concern, Moongi's eyes widening,\nwater molecules on the surface showing strain — some bonds stretching,\ncolor grading: warm prismatic tones beginning to shift toward cooler blue,\nfirst cracks appearing in crystalline structures,\nsense of initial unease, calm before the storm,\n16:9 aspect ratio, cinematic tension keyframe"
+    }
+  },
+  "11": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "4-1 Negative (공통)"
+    },
+    "inputs": {
+      "clip": [
+        "3",
+        1
+      ],
+      "text": "calm peaceful scene, serene atmosphere, relaxed characters,\nstable geometry, perfectly spherical water drop,\nwarm happy lighting, golden hour,\ntext, watermark, signature, logo, UI elements,\nlow quality, blurry, pixelated, jpeg artifacts, noise,\nwatercolor style,\nflat 2D, no depth, no volumetric distortion,\nexplosion, fire, lava,\nhorror gore, blood, graphic violence,\ncharacters smiling or relaxed,\nocean storm, hurricane,\nmonochrome, completely desaturated"
+    }
+  },
+  "12": {
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "4-1A Latent 1920x1080"
+    },
+    "inputs": {
+      "width": 1920,
+      "height": 1080,
+      "batch_size": 1
+    }
+  },
+  "13": {
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "4-1A KSampler — 첫 흔들림"
+    },
+    "inputs": {
+      "model": [
+        "3",
+        0
+      ],
+      "positive": [
+        "10",
+        0
+      ],
+      "negative": [
+        "11",
+        0
+      ],
+      "latent_image": [
+        "12",
+        0
+      ],
+      "seed": 1105401,
+      "steps": 35,
+      "cfg": 6.5,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1.0
+    }
+  },
+  "14": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "13",
+        0
+      ],
+      "vae": [
+        "2",
+        0
+      ]
+    }
+  },
+  "15": {
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save 4-1A 첫 흔들림"
+    },
+    "inputs": {
+      "images": [
+        "14",
+        0
+      ],
+      "filename_prefix": "ep01-backgrounds/bg-s04-01a-crisis-start"
+    }
+  },
+  "20": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "4-1B Positive — 최대 변형"
+    },
+    "inputs": {
+      "clip": [
+        "3",
+        1
+      ],
+      "text": "masterpiece, best quality, ral-crztlgls, surreal microscopic universe art, dramatic tension scene,\nprismatic world inside water drop violently shaking and distorting,\ntransparent water walls trembling and bulging dangerously,\nlight spectrum becoming unstable — rainbow bands fragmenting and flickering,\nprismatic colors stretching and warping as the spherical drop deforms,\nthe water drop being pushed by external wind force — visible as massive pressure waves on the walls,\ntiny girl (Choeun) and tardigrade (Moongi) struggling to maintain balance,\nChoeun bracing herself with wide stance, alarmed expression, wind-blown hair,\nMoongi gripping the molecular surface with all 8 legs, worried round eyes,\nwater molecules on the surface breaking some bonds — gaps forming in the molecular chain,\nhandheld camera shake effect, rapid zoom-out revealing the drop's unstable shape,\ncolor grading shift: warm prismatic tones cooling to anxious blue-violet,\ncrystalline structures cracking and fracturing under stress,\nlight pillars tilting and flickering like a building in earthquake,\nsense of imminent danger — the entire microscopic universe could collapse"
+    }
+  },
+  "22": {
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "4-1B Latent 1920x1080"
+    },
+    "inputs": {
+      "width": 1920,
+      "height": 1080,
+      "batch_size": 1
+    }
+  },
+  "23": {
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "4-1B KSampler — 최대 변형"
+    },
+    "inputs": {
+      "model": [
+        "3",
+        0
+      ],
+      "positive": [
+        "20",
+        0
+      ],
+      "negative": [
+        "11",
+        0
+      ],
+      "latent_image": [
+        "22",
+        0
+      ],
+      "seed": 1105402,
+      "steps": 35,
+      "cfg": 6.5,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1.0
+    }
+  },
+  "24": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "23",
+        0
+      ],
+      "vae": [
+        "2",
+        0
+      ]
+    }
+  },
+  "25": {
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save 4-1B 최대 변형"
+    },
+    "inputs": {
+      "images": [
+        "24",
+        0
+      ],
+      "filename_prefix": "ep01-backgrounds/bg-s04-01b-crisis-peak"
+    }
+  },
+  "26": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "4-1C Positive — 균형 유지 (긴장 속 안정)"
+    },
+    "inputs": {
+      "clip": [
+        "3",
+        1
+      ],
+      "text": "masterpiece, best quality, ral-crztlgls, surreal microscopic universe art, dramatic tension,\nprismatic world still shaking but holding together,\nwater walls deformed but not broken, tense equilibrium,\nlight spectrum unstable but still visible — flickering rainbow bands,\ntiny girl (Choeun) in wide bracing stance, determined expression amid fear,\ntardigrade (Moongi) gripping surface tightly, worried but resolute,\ncolor grading: dominant blue-violet anxiety tones with fading warm colors,\ncrystalline structures tilted but not collapsed,\ntense equilibrium — danger not over but momentarily stable,\n16:9 aspect ratio, tension keyframe"
+    }
+  },
+  "27": {
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "4-1C Latent 1920x1080"
+    },
+    "inputs": {
+      "width": 1920,
+      "height": 1080,
+      "batch_size": 1
+    }
+  },
+  "28": {
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "4-1C KSampler — 균형 유지"
+    },
+    "inputs": {
+      "model": [
+        "3",
+        0
+      ],
+      "positive": [
+        "26",
+        0
+      ],
+      "negative": [
+        "11",
+        0
+      ],
+      "latent_image": [
+        "27",
+        0
+      ],
+      "seed": 1105403,
+      "steps": 35,
+      "cfg": 6.5,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1.0
+    }
+  },
+  "29": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "28",
+        0
+      ],
+      "vae": [
+        "2",
+        0
+      ]
+    }
+  },
+  "19": {
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save 4-1C 균형 유지"
+    },
+    "inputs": {
+      "images": [
+        "29",
+        0
+      ],
+      "filename_prefix": "ep01-backgrounds/bg-s04-01c-crisis-hold"
+    }
+  },
+  "30": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "4-2A Positive — 빛 파동 시작"
+    },
+    "inputs": {
+      "clip": [
+        "4",
+        1
+      ],
+      "text": "masterpiece, best quality, ral-crztlgls, surreal microscopic universe art,\nradio communication visualized inside microscopic prismatic world,\nsound waves transforming into beautiful rippling light waves,\nconcentric rings of warm golden light expanding outward from a small radio device,\nwarm guiding light cutting through the anxious blue-violet atmosphere,\nthe golden sound-light waves bringing warmth back to the cooling prismatic world,\ntiny girl (Choeun) holding a small communication device, looking up with hope,\nMoongi beside her looking at the light waves with curious wide eyes,\nclose-up composition: radio device in foreground, light wave ripples expanding to mid-ground,\ncolor transition: anxious blue-violet beginning to warm with golden tones from the radio,\nscientific accuracy: sound travels as compression waves — visualized as alternating bright and dim rings of light"
+    }
+  },
+  "31": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "4-2 Negative (공통)"
+    },
+    "inputs": {
+      "clip": [
+        "4",
+        1
+      ],
+      "text": "realistic radio, modern smartphone, technology device,\ndark scary voice, villain communication,\ntext, watermark, signature, logo, UI elements,\nlow quality, blurry, pixelated, jpeg artifacts, noise,\nwatercolor style,\nflat 2D, no wave propagation effect,\nno light ripples, static image,\nmonochrome, completely desaturated,\nhorror atmosphere, dark spirits, ghostly face,\nsilent scene with no implied sound visualization"
+    }
+  },
+  "32": {
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "4-2A Latent 1920x1080"
+    },
+    "inputs": {
+      "width": 1920,
+      "height": 1080,
+      "batch_size": 1
+    }
+  },
+  "33": {
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "4-2A KSampler — 빛 파동"
+    },
+    "inputs": {
+      "model": [
+        "4",
+        0
+      ],
+      "positive": [
+        "30",
+        0
+      ],
+      "negative": [
+        "31",
+        0
+      ],
+      "latent_image": [
+        "32",
+        0
+      ],
+      "seed": 1105501,
+      "steps": 35,
+      "cfg": 7.5,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1.0
+    }
+  },
+  "34": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "33",
+        0
+      ],
+      "vae": [
+        "2",
+        0
+      ]
+    }
+  },
+  "35": {
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save 4-2A 빛 파동"
+    },
+    "inputs": {
+      "images": [
+        "34",
+        0
+      ],
+      "filename_prefix": "ep01-backgrounds/bg-s04-02a-radio-light"
+    }
+  },
+  "40": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "4-2B Positive — 할아버지 얼굴 반사"
+    },
+    "inputs": {
+      "clip": [
+        "4",
+        1
+      ],
+      "text": "masterpiece, best quality, ral-crztlgls, surreal microscopic universe art,\ngrandfather's kind elderly face reflected and refracted on the curved water drop surface,\nthe reflection warped by the spherical water surface — warm wise expression distorted into prismatic fragments,\nconcentric rings of warm golden light expanded throughout the scene,\nwarm guiding light dominating the previously anxious blue-violet atmosphere,\ntiny girl (Choeun) holding radio device, expression shifting from fear to determined hope,\nMoongi beside her watching the golden light waves with wide curious eyes,\nwider composition: light wave ripples reaching the water walls, grandfather face visible on surface,\ncolor transition: blue-violet warming significantly with grandfather's golden light,\natmosphere shifts from tense to hopeful as grandfather's presence is felt,\nscientific accuracy: radio waves are electromagnetic radiation — shown as oscillating light wave patterns"
+    }
+  },
+  "42": {
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "4-2B Latent 1920x1080"
+    },
+    "inputs": {
+      "width": 1920,
+      "height": 1080,
+      "batch_size": 1
+    }
+  },
+  "43": {
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "4-2B KSampler — 할아버지 반사"
+    },
+    "inputs": {
+      "model": [
+        "4",
+        0
+      ],
+      "positive": [
+        "40",
+        0
+      ],
+      "negative": [
+        "31",
+        0
+      ],
+      "latent_image": [
+        "42",
+        0
+      ],
+      "seed": 1105502,
+      "steps": 35,
+      "cfg": 7.5,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1.0
+    }
+  },
+  "44": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "43",
+        0
+      ],
+      "vae": [
+        "2",
+        0
+      ]
+    }
+  },
+  "45": {
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save 4-2B 할아버지 반사"
+    },
+    "inputs": {
+      "images": [
+        "44",
+        0
+      ],
+      "filename_prefix": "ep01-backgrounds/bg-s04-02b-grandpa-reflect"
+    }
+  },
+  "50": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "4-3A Positive — 달려가 복구 시작"
+    },
+    "inputs": {
+      "clip": [
+        "5",
+        1
+      ],
+      "text": "masterpiece, best quality, ral-crztlgls, surreal microscopic universe art, triumphant resolution scene,\ntiny girl (Choeun) and tardigrade (Moongi) rushing toward broken molecular chains on the water drop surface,\nChoeun running with determined expression, arms pumping,\nMoongi waddling fast beside her with all 8 legs in motion,\nbroken molecular chain visible ahead — gaps in the surface where water molecule figures have separated,\nwater molecules personified as small round blue figures, some drifting apart at the break points,\ncolor still transitioning — blue-violet anxiety with growing warm golden streaks,\ncrystalline structures partially damaged but not collapsed,\nsense of urgency and determination, rushing to save the microscopic world,\n16:9 aspect ratio, action keyframe"
+    }
+  },
+  "51": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "4-3 Negative (공통)"
+    },
+    "inputs": {
+      "clip": [
+        "5",
+        1
+      ],
+      "text": "still in crisis, continued danger, unstable world,\ndark atmosphere, anxiety, fear, sad ending,\ncharacters giving up, defeated expressions,\ntext, watermark, signature, logo, UI elements,\nlow quality, blurry, pixelated, jpeg artifacts, noise,\nwatercolor style,\nflat 2D, no depth, no healing/restoration effect,\nmonochrome, desaturated,\nmagic wand solution, unrealistic instant fix,\nsolo character only,\nexplosion or destruction effect"
+    }
+  },
+  "52": {
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "4-3A Latent 1920x1080"
+    },
+    "inputs": {
+      "width": 1920,
+      "height": 1080,
+      "batch_size": 1
+    }
+  },
+  "53": {
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "4-3A KSampler — 달려감"
+    },
+    "inputs": {
+      "model": [
+        "5",
+        0
+      ],
+      "positive": [
+        "50",
+        0
+      ],
+      "negative": [
+        "51",
+        0
+      ],
+      "latent_image": [
+        "52",
+        0
+      ],
+      "seed": 1105601,
+      "steps": 40,
+      "cfg": 7.5,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1.0
+    }
+  },
+  "54": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "53",
+        0
+      ],
+      "vae": [
+        "2",
+        0
+      ]
+    }
+  },
+  "55": {
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save 4-3A 달려감"
+    },
+    "inputs": {
+      "images": [
+        "54",
+        0
+      ],
+      "filename_prefix": "ep01-backgrounds/bg-s04-03a-repair-rush"
+    }
+  },
+  "60": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "4-3B Positive — 복원 완료 + 하이파이브"
+    },
+    "inputs": {
+      "clip": [
+        "5",
+        1
+      ],
+      "text": "masterpiece, best quality, ral-crztlgls, surreal microscopic universe art, triumphant resolution scene,\ntiny girl (Choeun) and tardigrade (Moongi) celebrating after restoring molecular bonds,\nChoeun and Moongi facing each other in triumphant high-five (hand to stubby leg),\nwater molecules personified as small round blue figures now gripping each other tightly in restored chains,\nmolecular chains tightened and multiplied along the water drop surface,\nhydrogen bonds visualized as brilliant glowing blue-white energy threads strengthening between molecules,\nthe water drop fully restored to a perfect stable sphere shape,\nprismatic world calmed — light spectrum stabilized back to harmonious rainbow,\ncrystalline structures reformed and healed, light pillars standing tall again,\ncolor grading: warm prismatic rainbow + transparent blue fully restored,\nwarm golden light flooding back into the world,\nwide camera angle showing the entire water drop interior stabilized,\nglowing restoration effect: ripple of healing light spreading outward,\nscientific accuracy: surface tension restored when molecular cohesive forces strengthen"
+    }
+  },
+  "62": {
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "4-3B Latent 1920x1080"
+    },
+    "inputs": {
+      "width": 1920,
+      "height": 1080,
+      "batch_size": 1
+    }
+  },
+  "63": {
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "4-3B KSampler — 복원 완료"
+    },
+    "inputs": {
+      "model": [
+        "5",
+        0
+      ],
+      "positive": [
+        "60",
+        0
+      ],
+      "negative": [
+        "51",
+        0
+      ],
+      "latent_image": [
+        "62",
+        0
+      ],
+      "seed": 1105602,
+      "steps": 40,
+      "cfg": 7.5,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1.0
+    }
+  },
+  "64": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "63",
+        0
+      ],
+      "vae": [
+        "2",
+        0
+      ]
+    }
+  },
+  "65": {
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save 4-3B 복원 완료"
+    },
+    "inputs": {
+      "images": [
+        "64",
+        0
+      ],
+      "filename_prefix": "ep01-backgrounds/bg-s04-03b-repair-restore"
+    }
+  }
+}

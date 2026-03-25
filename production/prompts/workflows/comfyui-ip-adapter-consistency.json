@@ -9,7 +9,7 @@
   "1": {
     "class_type": "CheckpointLoaderSimple",
     "inputs": {
-      "ckpt_name": "dreamshaperXL_v21TurboDPMSDE.safetensors"
+      "ckpt_name": "DreamShaperXL_Turbo_v2_1.safetensors"
     }
   },
   "2": {
@@ -24,7 +24,7 @@
     "inputs": {
       "model": ["1", 0],
       "clip": ["1", 1],
-      "lora_name": "watercolor_style_sdxl.safetensors",
+      "lora_name": "ral-wtrclr-sdxl.safetensors",
       "strength_model": 0.75,
       "strength_clip": 0.75
     }

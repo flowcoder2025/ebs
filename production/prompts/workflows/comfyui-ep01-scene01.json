@@ -1,0 +1,346 @@
+{
+  "_meta": {
+    "title": "WI-008 EP01 Scene 1: 정원의 발견 — 배경 이미지 3종",
+    "description": "Scene 1 (0:00~0:30)의 3개 서브씬 배경 이미지를 생성하는 ComfyUI API 워크플로우. 현실세계 수채화풍. 1-1 정원 전경, 1-2 초은이 등장, 1-3 물방울 클로즈업.",
+    "version": "1.0.0",
+    "episode": "EP01",
+    "scene": "Scene 1 — 정원의 발견",
+    "style": "watercolor (현실세계)",
+    "outputs": [
+      "bg-s01-01-garden-wide (정원 전경 와이드)",
+      "bg-s01-02-choeun-medium (초은이 등장 미디엄)",
+      "bg-s01-03-waterdrop-macro (물방울 매크로)"
+    ],
+    "source_prompts": "production/prompts/scenes/ep01-scene01-garden.md",
+    "runway_prompts": "production/prompts/scenes/ep01-runway-prompts.md (Scene 1)"
+  },
+  "1": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "DreamShaperXL_Turbo_v2_1.safetensors"
+    }
+  },
+  "2": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "sdxl_vae.safetensors"
+    }
+  },
+  "3": {
+    "class_type": "LoraLoader",
+    "_meta": {
+      "title": "LoRA - Watercolor Style (현실세계)"
+    },
+    "inputs": {
+      "model": [
+        "1",
+        0
+      ],
+      "clip": [
+        "1",
+        1
+      ],
+      "lora_name": "ral-wtrclr-sdxl.safetensors",
+      "strength_model": 0.7,
+      "strength_clip": 0.7
+    }
+  },
+  "4": {
+    "class_type": "LoraLoader",
+    "_meta": {
+      "title": "LoRA - Watercolor Style 약화 (1-3 매크로 전환용)"
+    },
+    "inputs": {
+      "model": [
+        "1",
+        0
+      ],
+      "clip": [
+        "1",
+        1
+      ],
+      "lora_name": "ral-wtrclr-sdxl.safetensors",
+      "strength_model": 0.4,
+      "strength_clip": 0.4
+    }
+  },
+  "10": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "1-1 Positive — 정원 전경 와이드"
+    },
+    "inputs": {
+      "clip": [
+        "3",
+        1
+      ],
+      "text": "masterpiece, best quality, ral-wtrclr, watercolor animation style, hand-painted texture, soft brush strokes,\ncozy garden after rain, late afternoon golden sunlight filtering through clearing clouds,\nlush green trees and colorful flower beds glistening with water droplets,\nwet grass and leaves with tiny sparkling water beads,\nwarm color palette with soft yellows, gentle greens, and muted pinks,\natmospheric light rays through clouds, petrichor mood,\nchildren's animation background, Studio Ghibli-inspired environment art,\nwide establishing shot slowly zooming in, depth of field,\ngentle lens flare from sun, volumetric lighting through mist,\nno characters in frame, serene peaceful garden landscape,\n16:9 aspect ratio, animation background plate"
+    }
+  },
+  "11": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "1-1 Negative"
+    },
+    "inputs": {
+      "clip": [
+        "3",
+        1
+      ],
+      "text": "photorealistic, 3D render, CGI, plastic texture, harsh shadows,\ndark mood, horror, night scene, urban, indoor,\ntext, watermark, signature, logo, UI elements,\nlow quality, blurry, pixelated, jpeg artifacts, noise,\noversaturated neon colors, flat lighting, monochrome,\nanime screencap, manga panel, comic book style,\ndeformed plants, floating objects, impossible geometry"
+    }
+  },
+  "12": {
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "1-1 Latent 1920x1080 (16:9)"
+    },
+    "inputs": {
+      "width": 1920,
+      "height": 1080,
+      "batch_size": 1
+    }
+  },
+  "13": {
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "1-1 KSampler — 정원 전경"
+    },
+    "inputs": {
+      "model": [
+        "3",
+        0
+      ],
+      "positive": [
+        "10",
+        0
+      ],
+      "negative": [
+        "11",
+        0
+      ],
+      "latent_image": [
+        "12",
+        0
+      ],
+      "seed": 801001,
+      "steps": 30,
+      "cfg": 7.0,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1.0
+    }
+  },
+  "14": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "13",
+        0
+      ],
+      "vae": [
+        "2",
+        0
+      ]
+    }
+  },
+  "15": {
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save 1-1 정원 전경"
+    },
+    "inputs": {
+      "images": [
+        "14",
+        0
+      ],
+      "filename_prefix": "ep01-backgrounds/bg-s01-01-garden-wide"
+    }
+  },
+  "20": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "1-2 Positive — 초은이 등장 미디엄"
+    },
+    "inputs": {
+      "clip": [
+        "3",
+        1
+      ],
+      "text": "masterpiece, best quality, ral-wtrclr, watercolor animation style, hand-painted texture, soft brush strokes,\n7-year-old Korean girl Choeun in cozy garden, curious bright expression,\nshort bobbed black hair with a single tiny braid on the right side tied with a sky-blue bead, round face with large expressive dark brown eyes,\nwearing a pastel mint field-explorer vest over a cream-colored long-sleeve shirt, khaki cargo shorts with oversized pockets,\nmismatched socks and worn brown lace-up boots, a brass magnifying glass hanging from a leather cord around her neck,\nholding the brass magnifying glass up to eye level, examining a water drop on a leaf,\nmedium shot transitioning to face close-up, soft focus background,\nwarm afternoon sunlight on face, sparkling eyes full of wonder and curiosity,\nwatercolor skin tones with rosy cheeks, gentle shading,\ngarden background with bokeh effect, green foliage frame,\nchildren's animation character art, Studio Ghibli-inspired character rendering,\nexpressive eyes catching light, subtle smile of discovery"
+    }
+  },
+  "21": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "1-2 Negative"
+    },
+    "inputs": {
+      "clip": [
+        "3",
+        1
+      ],
+      "text": "photorealistic, 3D render, CGI, plastic skin, uncanny valley,\nadult proportions, mature face, makeup, glamorous,\ndark mood, horror, scary expression,\ntext, watermark, signature, logo,\nlow quality, blurry, pixelated, jpeg artifacts,\noversaturated, flat lighting, harsh shadows,\ndeformed face, extra fingers, mutated hands, bad anatomy,\nwrong eye direction, cross-eyed, asymmetric face"
+    }
+  },
+  "22": {
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "1-2 Latent 1920x1080 (16:9)"
+    },
+    "inputs": {
+      "width": 1920,
+      "height": 1080,
+      "batch_size": 1
+    }
+  },
+  "23": {
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "1-2 KSampler — 초은이 등장"
+    },
+    "inputs": {
+      "model": [
+        "3",
+        0
+      ],
+      "positive": [
+        "20",
+        0
+      ],
+      "negative": [
+        "21",
+        0
+      ],
+      "latent_image": [
+        "22",
+        0
+      ],
+      "seed": 802001,
+      "steps": 35,
+      "cfg": 7.5,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1.0
+    }
+  },
+  "24": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "23",
+        0
+      ],
+      "vae": [
+        "2",
+        0
+      ]
+    }
+  },
+  "25": {
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save 1-2 초은이 등장"
+    },
+    "inputs": {
+      "images": [
+        "24",
+        0
+      ],
+      "filename_prefix": "ep01-backgrounds/bg-s01-02-choeun-medium"
+    }
+  },
+  "30": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "1-3 Positive — 물방울 매크로"
+    },
+    "inputs": {
+      "clip": [
+        "4",
+        1
+      ],
+      "text": "masterpiece, best quality, ral-wtrclr, watercolor-to-macro transition style,\nextreme close-up of a single perfect water drop sitting on a vibrant green leaf,\nmacro photography composition with watercolor artistic interpretation,\nrainbow light refraction inside the water drop, prismatic spectrum visible within,\ndistorted garden landscape reflected and refracted through the spherical water surface,\ncrystal clear transparent water with internal caustics,\nhyper-detailed water surface tension visible at contact point with leaf,\nleaf vein texture visible beneath the drop, morning dew aesthetic,\ntiny rainbow arcs inside the drop suggesting a hidden universe within,\nsoft bokeh background transitioning from warm watercolor garden to hints of prismatic blue,\ngolden sunlight catching the drop creating brilliant spectral highlights,\nscientific accuracy in light refraction angles, convex lens effect of water drop"
+    }
+  },
+  "31": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "1-3 Negative"
+    },
+    "inputs": {
+      "clip": [
+        "4",
+        1
+      ],
+      "text": "photorealistic only, no artistic interpretation, flat water, opaque liquid,\nno refraction, no rainbow, dull gray water,\ndirty water, muddy, contaminated appearance,\ntext, watermark, signature, logo,\nlow quality, blurry center, pixelated, jpeg artifacts,\nmultiple water drops (single drop focus), splashing water,\ndead leaf, brown dried plant, wilted vegetation,\nartificial looking, plastic, CGI liquid simulation look,\nincorrect refraction physics, inverted reflection"
+    }
+  },
+  "32": {
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "1-3 Latent 1920x1080 (16:9)"
+    },
+    "inputs": {
+      "width": 1920,
+      "height": 1080,
+      "batch_size": 1
+    }
+  },
+  "33": {
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "1-3 KSampler — 물방울 매크로"
+    },
+    "inputs": {
+      "model": [
+        "4",
+        0
+      ],
+      "positive": [
+        "30",
+        0
+      ],
+      "negative": [
+        "31",
+        0
+      ],
+      "latent_image": [
+        "32",
+        0
+      ],
+      "seed": 803001,
+      "steps": 40,
+      "cfg": 8.0,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1.0
+    }
+  },
+  "34": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "33",
+        0
+      ],
+      "vae": [
+        "2",
+        0
+      ]
+    }
+  },
+  "35": {
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save 1-3 물방울 매크로"
+    },
+    "inputs": {
+      "images": [
+        "34",
+        0
+      ],
+      "filename_prefix": "ep01-backgrounds/bg-s01-03-waterdrop-macro"
+    }
+  }
+}

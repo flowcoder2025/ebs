@@ -16,7 +16,7 @@
   "1": {
     "class_type": "CheckpointLoaderSimple",
     "inputs": {
-      "ckpt_name": "dreamshaperXL_v21TurboDPMSDE.safetensors"
+      "ckpt_name": "DreamShaperXL_Turbo_v2_1.safetensors"
     }
   },
   "2": {
@@ -31,7 +31,7 @@
     "inputs": {
       "model": ["1", 0],
       "clip": ["1", 1],
-      "lora_name": "watercolor_style_sdxl.safetensors",
+      "lora_name": "ral-wtrclr-sdxl.safetensors",
       "strength_model": 0.75,
       "strength_clip": 0.75
     }
@@ -42,7 +42,7 @@
     "inputs": {
       "model": ["1", 0],
       "clip": ["1", 1],
-      "lora_name": "prismatic_surreal_sdxl.safetensors",
+      "lora_name": "ral-crztlgls-sdxl.safetensors",
       "strength_model": 0.7,
       "strength_clip": 0.7
     }
@@ -53,7 +53,7 @@
     "_meta": { "title": "Ref01 Positive - 정면 전신 현실세계" },
     "inputs": {
       "clip": ["3", 1],
-      "text": "masterpiece, best quality, character reference sheet, front view, full body,\n7-year-old Korean girl, short bobbed black hair with a single tiny braid on the right side tied with a sky-blue bead, round face with large expressive dark brown eyes, slightly chubby cheeks with a faint natural blush, small upturned nose, curious bright smile showing slight gap in front teeth,\nwearing a pastel mint field-explorer vest over a cream-colored long-sleeve shirt, khaki cargo shorts with oversized pockets stuffed with small leaves and pebbles, mismatched socks (one striped blue, one dotted green), worn brown lace-up boots with mud on the soles,\na brass magnifying glass hanging from a leather cord around her neck,\nstanding in a sunlit garden after rain, warm watercolor illustration style, soft diffused lighting, traditional watercolor texture with visible paper grain, gentle color bleeding at edges, Studio Ghibli-inspired warmth, children's book illustration quality,\nwhite background with minimal garden elements, character design emphasis"
+      "text": "ral-wtrclr, masterpiece, best quality, character reference sheet, front view, full body,\n7-year-old Korean girl, short bobbed black hair with a single tiny braid on the right side tied with a sky-blue bead, round face with large expressive dark brown eyes, slightly chubby cheeks with a faint natural blush, small upturned nose, curious bright smile showing slight gap in front teeth,\nwearing a pastel mint field-explorer vest over a cream-colored long-sleeve shirt, khaki cargo shorts with oversized pockets stuffed with small leaves and pebbles, mismatched socks (one striped blue, one dotted green), worn brown lace-up boots with mud on the soles,\na brass magnifying glass hanging from a leather cord around her neck,\nstanding in a sunlit garden after rain, warm watercolor illustration style, soft diffused lighting, traditional watercolor texture with visible paper grain, gentle color bleeding at edges, Studio Ghibli-inspired warmth, children's book illustration quality,\nwhite background with minimal garden elements, character design emphasis"
     }
   },
   "11": {
@@ -103,7 +103,7 @@
     "_meta": { "title": "Ref02 Positive - 측면 전신 현실세계" },
     "inputs": {
       "clip": ["3", 1],
-      "text": "masterpiece, best quality, character reference sheet, side view, full body, profile view from left side,\n7-year-old Korean girl, short bobbed black hair with a single tiny braid on the right side tied with a sky-blue bead visible behind the head, round face profile with small upturned nose, large dark brown eye visible in profile, slightly chubby cheek with natural blush,\nwearing a pastel mint field-explorer vest with side pockets, cream-colored long-sleeve shirt visible underneath, khaki cargo shorts with oversized pockets, mismatched socks, worn brown lace-up boots,\nbrass magnifying glass hanging from leather cord at chest level,\nwalking pose with one foot slightly forward, natural stride,\nwarm watercolor illustration style, soft diffused lighting, traditional watercolor texture with visible paper grain, gentle color bleeding, Studio Ghibli-inspired warmth,\nclean light background, character design emphasis, side profile reference"
+      "text": "ral-wtrclr, masterpiece, best quality, character reference sheet, side view, full body, profile view from left side,\n7-year-old Korean girl, short bobbed black hair with a single tiny braid on the right side tied with a sky-blue bead visible behind the head, round face profile with small upturned nose, large dark brown eye visible in profile, slightly chubby cheek with natural blush,\nwearing a pastel mint field-explorer vest with side pockets, cream-colored long-sleeve shirt visible underneath, khaki cargo shorts with oversized pockets, mismatched socks, worn brown lace-up boots,\nbrass magnifying glass hanging from leather cord at chest level,\nwalking pose with one foot slightly forward, natural stride,\nwarm watercolor illustration style, soft diffused lighting, traditional watercolor texture with visible paper grain, gentle color bleeding, Studio Ghibli-inspired warmth,\nclean light background, character design emphasis, side profile reference"
     }
   },
   "21": {
@@ -153,7 +153,7 @@
     "_meta": { "title": "Ref03 Positive - 후면 전신 현실세계" },
     "inputs": {
       "clip": ["3", 1],
-      "text": "masterpiece, best quality, character reference sheet, back view, full body, rear view,\n7-year-old Korean girl seen from behind, short bobbed black hair with a single tiny braid on the right side tied with a sky-blue bead clearly visible, back of round head,\npastel mint field-explorer vest from behind showing back panel with a small embroidered leaf patch, cream-colored long-sleeve shirt visible at sleeves and collar, khaki cargo shorts with a back pocket holding a small notebook, mismatched socks, worn brown lace-up boots,\nleather cord of magnifying glass visible around neck from behind,\nstanding and looking ahead toward a garden path, slight head tilt to the right,\nwarm watercolor illustration style, soft afternoon sunlight casting gentle shadow, traditional watercolor texture, Studio Ghibli-inspired warmth,\nclean light background, character design emphasis, back reference"
+      "text": "ral-wtrclr, masterpiece, best quality, character reference sheet, back view, full body, rear view,\n7-year-old Korean girl seen from behind, short bobbed black hair with a single tiny braid on the right side tied with a sky-blue bead clearly visible, back of round head,\npastel mint field-explorer vest from behind showing back panel with a small embroidered leaf patch, cream-colored long-sleeve shirt visible at sleeves and collar, khaki cargo shorts with a back pocket holding a small notebook, mismatched socks, worn brown lace-up boots,\nleather cord of magnifying glass visible around neck from behind,\nstanding and looking ahead toward a garden path, slight head tilt to the right,\nwarm watercolor illustration style, soft afternoon sunlight casting gentle shadow, traditional watercolor texture, Studio Ghibli-inspired warmth,\nclean light background, character design emphasis, back reference"
     }
   },
   "31": {
@@ -203,7 +203,7 @@
     "_meta": { "title": "Ref04 Positive - 표정 호기심" },
     "inputs": {
       "clip": ["3", 1],
-      "text": "masterpiece, best quality, character expression sheet, close-up face portrait, head and shoulders,\n7-year-old Korean girl, short bobbed black hair with sky-blue bead braid, round face with large expressive dark brown eyes sparkling with wonder and curiosity, eyebrows slightly raised, pupils dilated with excitement, mouth slightly open in an \"ooh\" shape, chubby cheeks with natural blush deepening from excitement,\nholding a brass magnifying glass up near her face with both hands, peering through it with one eye comically enlarged,\nwarm watercolor illustration style, soft golden hour lighting on face, traditional watercolor texture, gentle warm tones,\nexpression: intense curiosity, wonder, fascination, discovery moment,\nclean warm-toned background, portrait emphasis, emotion reference sheet"
+      "text": "ral-wtrclr, masterpiece, best quality, character expression sheet, close-up face portrait, head and shoulders,\n7-year-old Korean girl, short bobbed black hair with sky-blue bead braid, round face with large expressive dark brown eyes sparkling with wonder and curiosity, eyebrows slightly raised, pupils dilated with excitement, mouth slightly open in an \"ooh\" shape, chubby cheeks with natural blush deepening from excitement,\nholding a brass magnifying glass up near her face with both hands, peering through it with one eye comically enlarged,\nwarm watercolor illustration style, soft golden hour lighting on face, traditional watercolor texture, gentle warm tones,\nexpression: intense curiosity, wonder, fascination, discovery moment,\nclean warm-toned background, portrait emphasis, emotion reference sheet"
     }
   },
   "41": {
@@ -253,7 +253,7 @@
     "_meta": { "title": "Ref05 Positive - 미시세계 정면 전신" },
     "inputs": {
       "clip": ["4", 1],
-      "text": "masterpiece, best quality, front view, full body,\n7-year-old Korean girl miniaturized to microscopic scale, short bobbed black hair with sky-blue bead braid now subtly reflecting prismatic light, round face with large dark brown eyes reflecting rainbow spectrum, wearing a pastel mint field-explorer vest that shimmers with iridescent light particles, cream shirt with faint light refractions visible on fabric, khaki cargo shorts, mismatched socks, worn brown boots,\nbrass magnifying glass around neck now glowing faintly with captured light,\nstanding inside a water droplet, surrounded by prismatic rainbow light refractions, transparent curved water walls visible in background, floating light particles and water molecules around her, microscopic scale environment,\nsurreal dreamlike atmosphere, iridescent color palette of rainbow and transparent blue, volumetric prismatic lighting, light spectrum effects, ethereal glow, hyper-detailed microscopic world,\nthe character retains her warm realistic proportions while the world around her is fantastically surreal"
+      "text": "ral-crztlgls, masterpiece, best quality, front view, full body,\n7-year-old Korean girl miniaturized to microscopic scale, short bobbed black hair with sky-blue bead braid now subtly reflecting prismatic light, round face with large dark brown eyes reflecting rainbow spectrum, wearing a pastel mint field-explorer vest that shimmers with iridescent light particles, cream shirt with faint light refractions visible on fabric, khaki cargo shorts, mismatched socks, worn brown boots,\nbrass magnifying glass around neck now glowing faintly with captured light,\nstanding inside a water droplet, surrounded by prismatic rainbow light refractions, transparent curved water walls visible in background, floating light particles and water molecules around her, microscopic scale environment,\nsurreal dreamlike atmosphere, iridescent color palette of rainbow and transparent blue, volumetric prismatic lighting, light spectrum effects, ethereal glow, hyper-detailed microscopic world,\nthe character retains her warm realistic proportions while the world around her is fantastically surreal"
     }
   },
   "51": {

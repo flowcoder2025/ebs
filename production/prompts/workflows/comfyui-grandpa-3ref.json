@@ -14,7 +14,7 @@
   "1": {
     "class_type": "CheckpointLoaderSimple",
     "inputs": {
-      "ckpt_name": "dreamshaperXL_v21TurboDPMSDE.safetensors"
+      "ckpt_name": "DreamShaperXL_Turbo_v2_1.safetensors"
     }
   },
   "2": {
@@ -29,7 +29,7 @@
     "inputs": {
       "model": ["1", 0],
       "clip": ["1", 1],
-      "lora_name": "watercolor_style_sdxl.safetensors",
+      "lora_name": "ral-wtrclr-sdxl.safetensors",
       "strength_model": 0.75,
       "strength_clip": 0.75
     }
@@ -40,7 +40,7 @@
     "_meta": { "title": "Ref01 Positive - 정면 전신 현실세계" },
     "inputs": {
       "clip": ["3", 1],
-      "text": "masterpiece, best quality, character reference sheet, front view, full body,\n68-year-old Korean man, retired scientist grandfather, tall with slightly hunched scholarly posture, silver-white hair thinning on top but fluffy at the sides like dandelion puffs, round wire-rimmed glasses perched low on a broad friendly nose, deep warm smile lines and crow's feet around kind narrow eyes, bushy silver eyebrows slightly wild and unkempt, weathered gentle hands with visible veins,\nwearing a well-loved camel-brown corduroy cardigan with brown leather elbow patches over a faded red-and-cream plaid flannel shirt, comfortable dark brown wool trousers with slight creases, brown leather house slippers,\na chunky retro walkie-talkie with a short antenna clipped to the left cardigan pocket, a micro-lens device resembling vintage brass goggles with crystalline prismatic lenses pushed up on his forehead resting against his fluffy silver hair,\nstanding in a warm cluttered attic laboratory with books and specimen jars in soft focus behind him,\nwarm watercolor illustration style, soft afternoon window light, traditional watercolor texture with visible paper grain, gentle color bleeding at edges, Studio Ghibli-inspired warmth, kind grandfatherly presence,\nclean background with subtle attic elements, character design emphasis"
+      "text": "ral-wtrclr, masterpiece, best quality, character reference sheet, front view, full body,\n68-year-old Korean man, retired scientist grandfather, tall with slightly hunched scholarly posture, silver-white hair thinning on top but fluffy at the sides like dandelion puffs, round wire-rimmed glasses perched low on a broad friendly nose, deep warm smile lines and crow's feet around kind narrow eyes, bushy silver eyebrows slightly wild and unkempt, weathered gentle hands with visible veins,\nwearing a well-loved camel-brown corduroy cardigan with brown leather elbow patches over a faded red-and-cream plaid flannel shirt, comfortable dark brown wool trousers with slight creases, brown leather house slippers,\na chunky retro walkie-talkie with a short antenna clipped to the left cardigan pocket, a micro-lens device resembling vintage brass goggles with crystalline prismatic lenses pushed up on his forehead resting against his fluffy silver hair,\nstanding in a warm cluttered attic laboratory with books and specimen jars in soft focus behind him,\nwarm watercolor illustration style, soft afternoon window light, traditional watercolor texture with visible paper grain, gentle color bleeding at edges, Studio Ghibli-inspired warmth, kind grandfatherly presence,\nclean background with subtle attic elements, character design emphasis"
     }
   },
   "11": {
@@ -90,7 +90,7 @@
     "_meta": { "title": "Ref02 Positive - 측면 전신 현실세계" },
     "inputs": {
       "clip": ["3", 1],
-      "text": "masterpiece, best quality, character reference sheet, side view, full body, profile view from right side,\n68-year-old Korean man, retired scientist grandfather, tall with characteristically hunched upper back from decades of laboratory work, silver-white fluffy side hair visible in profile, round wire-rimmed glasses on broad nose seen from side, kind narrow eye visible, bushy silver eyebrow,\ncamel-brown corduroy cardigan with elbow patch clearly visible in profile, faded plaid flannel shirt collar peeking out, dark brown trousers, brown leather slippers,\nwalkie-talkie clipped to front cardigan pocket visible in profile with short antenna protruding, brass micro-lens goggles pushed up on forehead visible from side showing the crystalline lens thickness and adjustable brass strap,\nslight forward lean in posture, hands clasped behind back in contemplative stance,\nwarm watercolor illustration style, soft natural lighting from the side, traditional watercolor texture, Studio Ghibli-inspired warmth,\nclean light background, character design emphasis, side profile reference"
+      "text": "ral-wtrclr, masterpiece, best quality, character reference sheet, side view, full body, profile view from right side,\n68-year-old Korean man, retired scientist grandfather, tall with characteristically hunched upper back from decades of laboratory work, silver-white fluffy side hair visible in profile, round wire-rimmed glasses on broad nose seen from side, kind narrow eye visible, bushy silver eyebrow,\ncamel-brown corduroy cardigan with elbow patch clearly visible in profile, faded plaid flannel shirt collar peeking out, dark brown trousers, brown leather slippers,\nwalkie-talkie clipped to front cardigan pocket visible in profile with short antenna protruding, brass micro-lens goggles pushed up on forehead visible from side showing the crystalline lens thickness and adjustable brass strap,\nslight forward lean in posture, hands clasped behind back in contemplative stance,\nwarm watercolor illustration style, soft natural lighting from the side, traditional watercolor texture, Studio Ghibli-inspired warmth,\nclean light background, character design emphasis, side profile reference"
     }
   },
   "21": {
@@ -140,7 +140,7 @@
     "_meta": { "title": "Ref03 Positive - 표정 미소" },
     "inputs": {
       "clip": ["3", 1],
-      "text": "masterpiece, best quality, character expression sheet, close-up face portrait, head and shoulders,\n68-year-old Korean man, retired scientist grandfather, silver-white fluffy side hair, round wire-rimmed glasses perched low on broad nose, deep warm smile with eyes almost closed in crescent shapes, pronounced crow's feet crinkling warmly, smile lines deeply creased, bushy silver eyebrows relaxed and slightly raised in gentle amusement, a few age spots on temples,\nwearing camel-brown corduroy cardigan collar visible, faded plaid flannel shirt collar,\nbrass micro-lens goggles pushed up on forehead catching warm light,\nexpression: deeply warm knowing smile, grandfatherly pride, quiet wisdom, gentle encouragement, the kind of smile that makes a child feel safe and loved,\nwarm watercolor illustration style, soft golden interior lighting as if from an attic window, traditional watercolor texture with warm tones,\nclean warm background, emotion reference sheet, portrait emphasis"
+      "text": "ral-wtrclr, masterpiece, best quality, character expression sheet, close-up face portrait, head and shoulders,\n68-year-old Korean man, retired scientist grandfather, silver-white fluffy side hair, round wire-rimmed glasses perched low on broad nose, deep warm smile with eyes almost closed in crescent shapes, pronounced crow's feet crinkling warmly, smile lines deeply creased, bushy silver eyebrows relaxed and slightly raised in gentle amusement, a few age spots on temples,\nwearing camel-brown corduroy cardigan collar visible, faded plaid flannel shirt collar,\nbrass micro-lens goggles pushed up on forehead catching warm light,\nexpression: deeply warm knowing smile, grandfatherly pride, quiet wisdom, gentle encouragement, the kind of smile that makes a child feel safe and loved,\nwarm watercolor illustration style, soft golden interior lighting as if from an attic window, traditional watercolor texture with warm tones,\nclean warm background, emotion reference sheet, portrait emphasis"
     }
   },
   "31": {
