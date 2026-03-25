@@ -3,6 +3,12 @@ name: evaluator
 description: "평가자 에이전트 — 스프린트 계약 기준으로 생성자 결과물을 채점. 코드를 수정하지 않고 평가만 수행."
 model: opus
 disallowedTools: Edit, Write, Agent
+hooks:
+  Stop:
+    - hooks:
+        - type: command
+          command: "bash .flowset/scripts/stop-rag-check.sh"
+          timeout: 120
 ---
 
 # Evaluator (v1.0)
