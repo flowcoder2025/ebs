@@ -6,12 +6,13 @@
 
 | WI | 상태 | 커밋 | PR | 담당 팀 | 비고 |
 |----|------|------|----|---------|------|
-| WI-001-feat 캐릭터 디자인 프롬프트 | 완료 | 90d6d96 | #1 (merged) | character | 초은이 10종, 할아버지 7종, 뭉이 8종 |
-| WI-002-feat 캐릭터 스타일가이드 | 완료 | 02f7114 | #2 (merged) | character | 현실/미시 스타일 정의, 색상 팔레트, LoRA 가이드 |
-| WI-003-feat 씬별 배경 프롬프트 | 완료 | 59d99dd | #3 (merged) | visual | Scene 1~6 (14 서브씬) + Runway/Kling 프롬프트 |
+| WI-001-feat 캐릭터 디자인 프롬프트 | 완료 (8.7/10 PASS) | 90d6d96 | #1 (merged) | character | 초은이 10종, 할아버지 7종, 뭉이 8종 |
+| WI-002-feat 캐릭터 스타일가이드 | 완료 (9.0/10 PASS) | 02f7114 | #2 (merged) | character | 현실/미시 스타일 정의, 색상 팔레트, LoRA 가이드 |
+| WI-003-feat 씬별 배경 프롬프트 | 완료 (9.2/10 PASS) | 59d99dd | #3 (merged) | visual | Scene 1~6 (14 서브씬) + Runway/Kling 프롬프트 |
 | WI-chore 서브에이전트 Stop hook | 완료 | 05bac4b | #4 (merged) | — | stop-rag-check.sh 추가 |
-| WI-002-fix 캐릭터 의상 일관성 | 완료 | be4eb45 | #5 (open) | character | style-guide/color-palette를 WI-001 기준으로 통일 |
-| WI-003-fix 씬 프롬프트 의상 참조 | 완료 | — | #6 (open) | visual | 씬 3개 파일의 구버전 의상 참조 수정 |
+| WI-fix 캐릭터 의상 일관성 | 완료 | f38501f | #5 (merged) | character | style-guide/color-palette를 WI-001 기준으로 통일 |
+| WI-fix 씬 프롬프트 의상 참조 | 완료 | 34460df | #6 (merged) | visual | 씬 3개 파일의 구버전 의상 참조 수정 |
+| WI-chore RAG 시스템 셋업 | 완료 | b953627 | #7 (merged) | — | 로컬+Vault RAG 6개, stop-hook 경로 수정 |
 
 ### 의사결정: 캐릭터 의상 통일 (2026-03-25)
 - WI-001 프롬프트(파스텔 민트 조끼 + 카키 반바지)와 WI-002 스타일가이드(노란 머리띠 + 멜빵바지) 불일치 발견
@@ -20,12 +21,12 @@
 
 ## Phase 2: D-Day 2 (2026-03-26) — 캐릭터 생성 + 컨셉아트
 
-| WI | 상태 | 담당 팀 |
-|----|------|---------|
-| WI-004-feat ComfyUI 캐릭터 생성 (초은이 5종) | 대기 | character |
-| WI-005-feat ComfyUI 캐릭터 생성 (할아버지 3종) | 대기 | character |
-| WI-006-feat ComfyUI 캐릭터 생성 (뭉이 5종) | 대기 | character |
-| WI-007-feat 컨셉아트 생성 (정원 + 프리즘) | 대기 | visual |
+| WI | 상태 | 커밋 | PR | 담당 팀 | 비고 |
+|----|------|------|----|---------|------|
+| WI-004-feat ComfyUI 캐릭터 생성 (초은이 5종) | 워크플로우 준비 완료 | — | — | character | 5종 JSON + IP-Adapter 템플릿 |
+| WI-005-feat ComfyUI 캐릭터 생성 (할아버지 3종) | 워크플로우 준비 완료 | — | — | character | 3종 JSON |
+| WI-006-feat ComfyUI 캐릭터 생성 (뭉이 5종) | 워크플로우 준비 완료 | — | — | character | 5종 JSON + 투명체 파라미터 최적화 |
+| WI-007-feat 컨셉아트 생성 (정원 + 프리즘) | 워크플로우 준비 완료 | — | — | visual | 16:9 컨셉아트 2종 JSON |
 
 ## Phase 3~6: 미착수
 

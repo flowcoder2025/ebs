@@ -1,0 +1,187 @@
+{
+  "_meta": {
+    "title": "WI-005 할아버지 레퍼런스 3종 생성",
+    "description": "할아버지(박 박사) 캐릭터 레퍼런스 이미지 3종을 생성하는 ComfyUI API 워크플로우. 정면/측면 전신 + 미소 표정.",
+    "version": "1.0.0",
+    "character": "grandpa",
+    "outputs": [
+      "ref01-front-watercolor (정면 전신 현실)",
+      "ref02-side-watercolor (측면 전신 현실)",
+      "ref03-expression-smile (표정 미소)"
+    ]
+  },
+
+  "1": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "dreamshaperXL_v21TurboDPMSDE.safetensors"
+    }
+  },
+  "2": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "sdxl_vae.safetensors"
+    }
+  },
+  "3": {
+    "class_type": "LoraLoader",
+    "_meta": { "title": "LoRA - Watercolor Style (현실세계)" },
+    "inputs": {
+      "model": ["1", 0],
+      "clip": ["1", 1],
+      "lora_name": "watercolor_style_sdxl.safetensors",
+      "strength_model": 0.75,
+      "strength_clip": 0.75
+    }
+  },
+
+  "10": {
+    "class_type": "CLIPTextEncode",
+    "_meta": { "title": "Ref01 Positive - 정면 전신 현실세계" },
+    "inputs": {
+      "clip": ["3", 1],
+      "text": "masterpiece, best quality, character reference sheet, front view, full body,\n68-year-old Korean man, retired scientist grandfather, tall with slightly hunched scholarly posture, silver-white hair thinning on top but fluffy at the sides like dandelion puffs, round wire-rimmed glasses perched low on a broad friendly nose, deep warm smile lines and crow's feet around kind narrow eyes, bushy silver eyebrows slightly wild and unkempt, weathered gentle hands with visible veins,\nwearing a well-loved camel-brown corduroy cardigan with brown leather elbow patches over a faded red-and-cream plaid flannel shirt, comfortable dark brown wool trousers with slight creases, brown leather house slippers,\na chunky retro walkie-talkie with a short antenna clipped to the left cardigan pocket, a micro-lens device resembling vintage brass goggles with crystalline prismatic lenses pushed up on his forehead resting against his fluffy silver hair,\nstanding in a warm cluttered attic laboratory with books and specimen jars in soft focus behind him,\nwarm watercolor illustration style, soft afternoon window light, traditional watercolor texture with visible paper grain, gentle color bleeding at edges, Studio Ghibli-inspired warmth, kind grandfatherly presence,\nclean background with subtle attic elements, character design emphasis"
+    }
+  },
+  "11": {
+    "class_type": "CLIPTextEncode",
+    "_meta": { "title": "Ref01 Negative" },
+    "inputs": {
+      "clip": ["3", 1],
+      "text": "photorealistic, 3d render, anime screencap, chibi, young man, muscular, intimidating, stern expression, military uniform, suit and tie, modern tech gadgets, smartphone, dark atmosphere, horror, extra fingers, extra limbs, deformed hands, bad anatomy, blurry, low quality, watermark, signature, text, logo, oversaturated neon colors, generic old man, Santa Claus, wizard robe"
+    }
+  },
+  "12": {
+    "class_type": "EmptyLatentImage",
+    "_meta": { "title": "Ref01 Latent 896x1152" },
+    "inputs": { "width": 896, "height": 1152, "batch_size": 1 }
+  },
+  "13": {
+    "class_type": "KSampler",
+    "_meta": { "title": "Ref01 KSampler - 정면 전신" },
+    "inputs": {
+      "model": ["3", 0],
+      "positive": ["10", 0],
+      "negative": ["11", 0],
+      "latent_image": ["12", 0],
+      "seed": 200001,
+      "steps": 35,
+      "cfg": 7.0,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1.0
+    }
+  },
+  "14": {
+    "class_type": "VAEDecode",
+    "inputs": { "samples": ["13", 0], "vae": ["2", 0] }
+  },
+  "15": {
+    "class_type": "SaveImage",
+    "_meta": { "title": "Save Ref01 정면" },
+    "inputs": {
+      "images": ["14", 0],
+      "filename_prefix": "grandpa/ref01-front-watercolor"
+    }
+  },
+
+  "20": {
+    "class_type": "CLIPTextEncode",
+    "_meta": { "title": "Ref02 Positive - 측면 전신 현실세계" },
+    "inputs": {
+      "clip": ["3", 1],
+      "text": "masterpiece, best quality, character reference sheet, side view, full body, profile view from right side,\n68-year-old Korean man, retired scientist grandfather, tall with characteristically hunched upper back from decades of laboratory work, silver-white fluffy side hair visible in profile, round wire-rimmed glasses on broad nose seen from side, kind narrow eye visible, bushy silver eyebrow,\ncamel-brown corduroy cardigan with elbow patch clearly visible in profile, faded plaid flannel shirt collar peeking out, dark brown trousers, brown leather slippers,\nwalkie-talkie clipped to front cardigan pocket visible in profile with short antenna protruding, brass micro-lens goggles pushed up on forehead visible from side showing the crystalline lens thickness and adjustable brass strap,\nslight forward lean in posture, hands clasped behind back in contemplative stance,\nwarm watercolor illustration style, soft natural lighting from the side, traditional watercolor texture, Studio Ghibli-inspired warmth,\nclean light background, character design emphasis, side profile reference"
+    }
+  },
+  "21": {
+    "class_type": "CLIPTextEncode",
+    "_meta": { "title": "Ref02 Negative" },
+    "inputs": {
+      "clip": ["3", 1],
+      "text": "photorealistic, 3d render, anime screencap, chibi, young man, muscular, straight-backed military posture, dark atmosphere, horror, extra fingers, extra limbs, deformed hands, bad anatomy, blurry, low quality, watermark, signature, text, logo, oversaturated neon colors, facing camera, front view, generic old man"
+    }
+  },
+  "22": {
+    "class_type": "EmptyLatentImage",
+    "_meta": { "title": "Ref02 Latent 896x1152" },
+    "inputs": { "width": 896, "height": 1152, "batch_size": 1 }
+  },
+  "23": {
+    "class_type": "KSampler",
+    "_meta": { "title": "Ref02 KSampler - 측면 전신" },
+    "inputs": {
+      "model": ["3", 0],
+      "positive": ["20", 0],
+      "negative": ["21", 0],
+      "latent_image": ["22", 0],
+      "seed": 200002,
+      "steps": 35,
+      "cfg": 7.0,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1.0
+    }
+  },
+  "24": {
+    "class_type": "VAEDecode",
+    "inputs": { "samples": ["23", 0], "vae": ["2", 0] }
+  },
+  "25": {
+    "class_type": "SaveImage",
+    "_meta": { "title": "Save Ref02 측면" },
+    "inputs": {
+      "images": ["24", 0],
+      "filename_prefix": "grandpa/ref02-side-watercolor"
+    }
+  },
+
+  "30": {
+    "class_type": "CLIPTextEncode",
+    "_meta": { "title": "Ref03 Positive - 표정 미소" },
+    "inputs": {
+      "clip": ["3", 1],
+      "text": "masterpiece, best quality, character expression sheet, close-up face portrait, head and shoulders,\n68-year-old Korean man, retired scientist grandfather, silver-white fluffy side hair, round wire-rimmed glasses perched low on broad nose, deep warm smile with eyes almost closed in crescent shapes, pronounced crow's feet crinkling warmly, smile lines deeply creased, bushy silver eyebrows relaxed and slightly raised in gentle amusement, a few age spots on temples,\nwearing camel-brown corduroy cardigan collar visible, faded plaid flannel shirt collar,\nbrass micro-lens goggles pushed up on forehead catching warm light,\nexpression: deeply warm knowing smile, grandfatherly pride, quiet wisdom, gentle encouragement, the kind of smile that makes a child feel safe and loved,\nwarm watercolor illustration style, soft golden interior lighting as if from an attic window, traditional watercolor texture with warm tones,\nclean warm background, emotion reference sheet, portrait emphasis"
+    }
+  },
+  "31": {
+    "class_type": "CLIPTextEncode",
+    "_meta": { "title": "Ref03 Negative" },
+    "inputs": {
+      "clip": ["3", 1],
+      "text": "photorealistic, 3d render, anime screencap, chibi, young face, stern expression, angry, cold distant look, dark atmosphere, horror, extra fingers, deformed, bad anatomy, blurry, low quality, watermark, signature, text, logo, neutral expression, smirking, sarcastic smile, oversaturated, forced grin"
+    }
+  },
+  "32": {
+    "class_type": "EmptyLatentImage",
+    "_meta": { "title": "Ref03 Latent 1024x1024" },
+    "inputs": { "width": 1024, "height": 1024, "batch_size": 1 }
+  },
+  "33": {
+    "class_type": "KSampler",
+    "_meta": { "title": "Ref03 KSampler - 표정 미소" },
+    "inputs": {
+      "model": ["3", 0],
+      "positive": ["30", 0],
+      "negative": ["31", 0],
+      "latent_image": ["32", 0],
+      "seed": 200003,
+      "steps": 35,
+      "cfg": 7.0,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1.0
+    }
+  },
+  "34": {
+    "class_type": "VAEDecode",
+    "inputs": { "samples": ["33", 0], "vae": ["2", 0] }
+  },
+  "35": {
+    "class_type": "SaveImage",
+    "_meta": { "title": "Save Ref03 표정 미소" },
+    "inputs": {
+      "images": ["34", 0],
+      "filename_prefix": "grandpa/ref03-expression-smile"
+    }
+  }
+}

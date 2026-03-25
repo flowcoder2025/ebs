@@ -1,0 +1,147 @@
+{
+  "_meta": {
+    "title": "WI-007 EP01 컨셉아트 생성 (현실세계 정원 + 미시세계 프리즘)",
+    "description": "EP01 '물방울 속 우주'의 핵심 컨셉아트 2종을 생성하는 ComfyUI API 워크플로우. 현실세계 정원(16:9 수채화) + 미시세계 프리즘 내부(16:9 초현실).",
+    "version": "1.0.0",
+    "episode": "EP01",
+    "outputs": [
+      "concept01-garden-watercolor (현실세계 정원 전경 16:9)",
+      "concept02-prism-world-surreal (미시세계 프리즘 내부 16:9)"
+    ]
+  },
+
+  "1": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "dreamshaperXL_v21TurboDPMSDE.safetensors"
+    }
+  },
+  "2": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "sdxl_vae.safetensors"
+    }
+  },
+  "3": {
+    "class_type": "LoraLoader",
+    "_meta": { "title": "LoRA - Watercolor Style (현실세계)" },
+    "inputs": {
+      "model": ["1", 0],
+      "clip": ["1", 1],
+      "lora_name": "watercolor_style_sdxl.safetensors",
+      "strength_model": 0.7,
+      "strength_clip": 0.7
+    }
+  },
+  "4": {
+    "class_type": "LoraLoader",
+    "_meta": { "title": "LoRA - Prismatic Surreal (미시세계)" },
+    "inputs": {
+      "model": ["1", 0],
+      "clip": ["1", 1],
+      "lora_name": "prismatic_surreal_sdxl.safetensors",
+      "strength_model": 0.8,
+      "strength_clip": 0.8
+    }
+  },
+
+  "10": {
+    "class_type": "CLIPTextEncode",
+    "_meta": { "title": "Concept01 Positive - 현실세계 정원 전경" },
+    "inputs": {
+      "clip": ["3", 1],
+      "text": "masterpiece, best quality, watercolor animation style, hand-painted texture, soft brush strokes,\ncozy garden after rain, late afternoon golden sunlight filtering through clearing clouds,\nlush green trees and colorful flower beds glistening with water droplets,\nwet grass and leaves with tiny sparkling water beads,\nwarm color palette with soft yellows, gentle greens, and muted pinks,\natmospheric light rays through clouds, petrichor mood,\nchildren's animation background, Studio Ghibli-inspired environment art,\nwide establishing shot, depth of field,\ngentle lens flare from sun, volumetric lighting through mist,\n7-year-old Korean girl in pastel mint explorer vest crouching near a large water droplet on a leaf, seen from behind in the middle distance,\na cozy garden with a path leading to a small house, grandpa's attic window visible,\n16:9 aspect ratio, animation concept art, key visual,\ntraditional watercolor texture with visible paper grain, gentle color bleeding at edges"
+    }
+  },
+  "11": {
+    "class_type": "CLIPTextEncode",
+    "_meta": { "title": "Concept01 Negative" },
+    "inputs": {
+      "clip": ["3", 1],
+      "text": "photorealistic, 3D render, CGI, plastic texture, harsh shadows, dark mood, horror, night scene, urban, indoor, text, watermark, signature, logo, low quality, blurry, pixelated, oversaturated neon colors, flat lighting, monochrome, anime screencap, deformed, extra fingers, bad anatomy"
+    }
+  },
+  "12": {
+    "class_type": "EmptyLatentImage",
+    "_meta": { "title": "Concept01 Latent 1920x1080 (16:9)" },
+    "inputs": { "width": 1920, "height": 1080, "batch_size": 1 }
+  },
+  "13": {
+    "class_type": "KSampler",
+    "_meta": { "title": "Concept01 KSampler - 정원 전경" },
+    "inputs": {
+      "model": ["3", 0],
+      "positive": ["10", 0],
+      "negative": ["11", 0],
+      "latent_image": ["12", 0],
+      "seed": 400001,
+      "steps": 35,
+      "cfg": 7.0,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1.0
+    }
+  },
+  "14": {
+    "class_type": "VAEDecode",
+    "inputs": { "samples": ["13", 0], "vae": ["2", 0] }
+  },
+  "15": {
+    "class_type": "SaveImage",
+    "_meta": { "title": "Save Concept01 정원" },
+    "inputs": {
+      "images": ["14", 0],
+      "filename_prefix": "ep01-conceptart/concept01-garden-watercolor"
+    }
+  },
+
+  "20": {
+    "class_type": "CLIPTextEncode",
+    "_meta": { "title": "Concept02 Positive - 미시세계 프리즘 내부" },
+    "inputs": {
+      "clip": ["4", 1],
+      "text": "masterpiece, best quality, surreal microscopic universe art, concept art, key visual,\ninside a water droplet — a vast prismatic world of refracted light and molecular structures,\ntransparent curved water walls forming a dome-like interior space with rainbow light refracting through every surface,\nground made of interlocking water molecule chains: large blue-tinted transparent spheres (oxygen atoms) connected to small white translucent spheres (hydrogen atoms) in scientifically accurate H2O structure,\ntowering crystalline light pillars rising from the molecular floor, each pillar splitting white light into full rainbow spectrum,\nfloating prismatic particles and light motes drifting through the air like snow,\na rainbow prismatic light path winding through the scene leading into the distance,\na tiny 7-year-old girl (far away, small figure) walking alongside a cute round tardigrade creature on the rainbow path,\niridescent color palette: dominant transparent blues, prismatic rainbow caustics on every surface, warm golden light from above,\nvolumetric prismatic lighting, ethereal glow, bioluminescent ambient light from molecular floor,\nscientific beauty: light refraction patterns, surface tension visualization, molecular bonds as visual architecture,\n16:9 aspect ratio, wide establishing shot of the microscopic world interior, sense of vast scale within the tiny"
+    }
+  },
+  "21": {
+    "class_type": "CLIPTextEncode",
+    "_meta": { "title": "Concept02 Negative" },
+    "inputs": {
+      "clip": ["4", 1],
+      "text": "photorealistic, flat illustration, watercolor paper texture, dark gloomy atmosphere, horror, underwater ocean scene, coral reef, generic fantasy world, typical fairy tale, mundane lighting, monochrome, desaturated, text, watermark, signature, logo, low quality, blurry, deformed, extra fingers, bad anatomy, oversaturated neon, anime screencap, simple background"
+    }
+  },
+  "22": {
+    "class_type": "EmptyLatentImage",
+    "_meta": { "title": "Concept02 Latent 1920x1080 (16:9)" },
+    "inputs": { "width": 1920, "height": 1080, "batch_size": 1 }
+  },
+  "23": {
+    "class_type": "KSampler",
+    "_meta": { "title": "Concept02 KSampler - 프리즘 세계" },
+    "inputs": {
+      "model": ["4", 0],
+      "positive": ["20", 0],
+      "negative": ["21", 0],
+      "latent_image": ["22", 0],
+      "seed": 400002,
+      "steps": 40,
+      "cfg": 6.5,
+      "sampler_name": "dpmpp_sde",
+      "scheduler": "karras",
+      "denoise": 1.0
+    }
+  },
+  "24": {
+    "class_type": "VAEDecode",
+    "inputs": { "samples": ["23", 0], "vae": ["2", 0] }
+  },
+  "25": {
+    "class_type": "SaveImage",
+    "_meta": { "title": "Save Concept02 프리즘 세계" },
+    "inputs": {
+      "images": ["24", 0],
+      "filename_prefix": "ep01-conceptart/concept02-prism-world-surreal"
+    }
+  }
+}

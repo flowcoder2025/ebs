@@ -1,0 +1,300 @@
+{
+  "_meta": {
+    "title": "WI-004 초은이 레퍼런스 5종 생성",
+    "description": "초은이 캐릭터 레퍼런스 이미지 5종을 순차 생성하는 ComfyUI API 워크플로우. 각 이미지별 프롬프트와 파라미터를 개별 KSampler로 분리.",
+    "version": "1.0.0",
+    "character": "choeun",
+    "outputs": [
+      "ref01-front-watercolor (정면 전신 현실)",
+      "ref02-side-watercolor (측면 전신 현실)",
+      "ref03-back-watercolor (후면 전신 현실)",
+      "ref04-expression-curiosity (표정 호기심)",
+      "ref05-front-surreal (정면 전신 미시세계)"
+    ]
+  },
+
+  "1": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "dreamshaperXL_v21TurboDPMSDE.safetensors"
+    }
+  },
+  "2": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "sdxl_vae.safetensors"
+    }
+  },
+  "3": {
+    "class_type": "LoraLoader",
+    "_meta": { "title": "LoRA - Watercolor Style (현실세계)" },
+    "inputs": {
+      "model": ["1", 0],
+      "clip": ["1", 1],
+      "lora_name": "watercolor_style_sdxl.safetensors",
+      "strength_model": 0.75,
+      "strength_clip": 0.75
+    }
+  },
+  "4": {
+    "class_type": "LoraLoader",
+    "_meta": { "title": "LoRA - Prismatic Surreal (미시세계)" },
+    "inputs": {
+      "model": ["1", 0],
+      "clip": ["1", 1],
+      "lora_name": "prismatic_surreal_sdxl.safetensors",
+      "strength_model": 0.7,
+      "strength_clip": 0.7
+    }
+  },
+
+  "10": {
+    "class_type": "CLIPTextEncode",
+    "_meta": { "title": "Ref01 Positive - 정면 전신 현실세계" },
+    "inputs": {
+      "clip": ["3", 1],
+      "text": "masterpiece, best quality, character reference sheet, front view, full body,\n7-year-old Korean girl, short bobbed black hair with a single tiny braid on the right side tied with a sky-blue bead, round face with large expressive dark brown eyes, slightly chubby cheeks with a faint natural blush, small upturned nose, curious bright smile showing slight gap in front teeth,\nwearing a pastel mint field-explorer vest over a cream-colored long-sleeve shirt, khaki cargo shorts with oversized pockets stuffed with small leaves and pebbles, mismatched socks (one striped blue, one dotted green), worn brown lace-up boots with mud on the soles,\na brass magnifying glass hanging from a leather cord around her neck,\nstanding in a sunlit garden after rain, warm watercolor illustration style, soft diffused lighting, traditional watercolor texture with visible paper grain, gentle color bleeding at edges, Studio Ghibli-inspired warmth, children's book illustration quality,\nwhite background with minimal garden elements, character design emphasis"
+    }
+  },
+  "11": {
+    "class_type": "CLIPTextEncode",
+    "_meta": { "title": "Ref01 Negative" },
+    "inputs": {
+      "clip": ["3", 1],
+      "text": "photorealistic, 3d render, anime screencap, chibi, super deformed, adult proportions, mature face, makeup, high heels, sexy, revealing clothing, dark atmosphere, horror, gore, extra fingers, extra limbs, deformed hands, bad anatomy, blurry, low quality, watermark, signature, text, logo, oversaturated neon colors, generic anime girl, school uniform, magical girl costume"
+    }
+  },
+  "12": {
+    "class_type": "EmptyLatentImage",
+    "_meta": { "title": "Ref01 Latent 896x1152" },
+    "inputs": { "width": 896, "height": 1152, "batch_size": 1 }
+  },
+  "13": {
+    "class_type": "KSampler",
+    "_meta": { "title": "Ref01 KSampler - 정면 전신" },
+    "inputs": {
+      "model": ["3", 0],
+      "positive": ["10", 0],
+      "negative": ["11", 0],
+      "latent_image": ["12", 0],
+      "seed": 100001,
+      "steps": 35,
+      "cfg": 7.0,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1.0
+    }
+  },
+  "14": {
+    "class_type": "VAEDecode",
+    "inputs": { "samples": ["13", 0], "vae": ["2", 0] }
+  },
+  "15": {
+    "class_type": "SaveImage",
+    "_meta": { "title": "Save Ref01 정면" },
+    "inputs": {
+      "images": ["14", 0],
+      "filename_prefix": "choeun/ref01-front-watercolor"
+    }
+  },
+
+  "20": {
+    "class_type": "CLIPTextEncode",
+    "_meta": { "title": "Ref02 Positive - 측면 전신 현실세계" },
+    "inputs": {
+      "clip": ["3", 1],
+      "text": "masterpiece, best quality, character reference sheet, side view, full body, profile view from left side,\n7-year-old Korean girl, short bobbed black hair with a single tiny braid on the right side tied with a sky-blue bead visible behind the head, round face profile with small upturned nose, large dark brown eye visible in profile, slightly chubby cheek with natural blush,\nwearing a pastel mint field-explorer vest with side pockets, cream-colored long-sleeve shirt visible underneath, khaki cargo shorts with oversized pockets, mismatched socks, worn brown lace-up boots,\nbrass magnifying glass hanging from leather cord at chest level,\nwalking pose with one foot slightly forward, natural stride,\nwarm watercolor illustration style, soft diffused lighting, traditional watercolor texture with visible paper grain, gentle color bleeding, Studio Ghibli-inspired warmth,\nclean light background, character design emphasis, side profile reference"
+    }
+  },
+  "21": {
+    "class_type": "CLIPTextEncode",
+    "_meta": { "title": "Ref02 Negative" },
+    "inputs": {
+      "clip": ["3", 1],
+      "text": "photorealistic, 3d render, anime screencap, chibi, super deformed, adult proportions, mature face, makeup, dark atmosphere, horror, extra fingers, extra limbs, deformed hands, bad anatomy, blurry, low quality, watermark, signature, text, logo, oversaturated neon colors, generic anime girl, facing camera, front view"
+    }
+  },
+  "22": {
+    "class_type": "EmptyLatentImage",
+    "_meta": { "title": "Ref02 Latent 896x1152" },
+    "inputs": { "width": 896, "height": 1152, "batch_size": 1 }
+  },
+  "23": {
+    "class_type": "KSampler",
+    "_meta": { "title": "Ref02 KSampler - 측면 전신" },
+    "inputs": {
+      "model": ["3", 0],
+      "positive": ["20", 0],
+      "negative": ["21", 0],
+      "latent_image": ["22", 0],
+      "seed": 100002,
+      "steps": 35,
+      "cfg": 7.0,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1.0
+    }
+  },
+  "24": {
+    "class_type": "VAEDecode",
+    "inputs": { "samples": ["23", 0], "vae": ["2", 0] }
+  },
+  "25": {
+    "class_type": "SaveImage",
+    "_meta": { "title": "Save Ref02 측면" },
+    "inputs": {
+      "images": ["24", 0],
+      "filename_prefix": "choeun/ref02-side-watercolor"
+    }
+  },
+
+  "30": {
+    "class_type": "CLIPTextEncode",
+    "_meta": { "title": "Ref03 Positive - 후면 전신 현실세계" },
+    "inputs": {
+      "clip": ["3", 1],
+      "text": "masterpiece, best quality, character reference sheet, back view, full body, rear view,\n7-year-old Korean girl seen from behind, short bobbed black hair with a single tiny braid on the right side tied with a sky-blue bead clearly visible, back of round head,\npastel mint field-explorer vest from behind showing back panel with a small embroidered leaf patch, cream-colored long-sleeve shirt visible at sleeves and collar, khaki cargo shorts with a back pocket holding a small notebook, mismatched socks, worn brown lace-up boots,\nleather cord of magnifying glass visible around neck from behind,\nstanding and looking ahead toward a garden path, slight head tilt to the right,\nwarm watercolor illustration style, soft afternoon sunlight casting gentle shadow, traditional watercolor texture, Studio Ghibli-inspired warmth,\nclean light background, character design emphasis, back reference"
+    }
+  },
+  "31": {
+    "class_type": "CLIPTextEncode",
+    "_meta": { "title": "Ref03 Negative" },
+    "inputs": {
+      "clip": ["3", 1],
+      "text": "photorealistic, 3d render, anime screencap, chibi, super deformed, adult proportions, face visible, front view, side view, dark atmosphere, horror, extra fingers, extra limbs, deformed hands, bad anatomy, blurry, low quality, watermark, signature, text, logo, oversaturated neon colors"
+    }
+  },
+  "32": {
+    "class_type": "EmptyLatentImage",
+    "_meta": { "title": "Ref03 Latent 896x1152" },
+    "inputs": { "width": 896, "height": 1152, "batch_size": 1 }
+  },
+  "33": {
+    "class_type": "KSampler",
+    "_meta": { "title": "Ref03 KSampler - 후면 전신" },
+    "inputs": {
+      "model": ["3", 0],
+      "positive": ["30", 0],
+      "negative": ["31", 0],
+      "latent_image": ["32", 0],
+      "seed": 100003,
+      "steps": 35,
+      "cfg": 7.0,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1.0
+    }
+  },
+  "34": {
+    "class_type": "VAEDecode",
+    "inputs": { "samples": ["33", 0], "vae": ["2", 0] }
+  },
+  "35": {
+    "class_type": "SaveImage",
+    "_meta": { "title": "Save Ref03 후면" },
+    "inputs": {
+      "images": ["34", 0],
+      "filename_prefix": "choeun/ref03-back-watercolor"
+    }
+  },
+
+  "40": {
+    "class_type": "CLIPTextEncode",
+    "_meta": { "title": "Ref04 Positive - 표정 호기심" },
+    "inputs": {
+      "clip": ["3", 1],
+      "text": "masterpiece, best quality, character expression sheet, close-up face portrait, head and shoulders,\n7-year-old Korean girl, short bobbed black hair with sky-blue bead braid, round face with large expressive dark brown eyes sparkling with wonder and curiosity, eyebrows slightly raised, pupils dilated with excitement, mouth slightly open in an \"ooh\" shape, chubby cheeks with natural blush deepening from excitement,\nholding a brass magnifying glass up near her face with both hands, peering through it with one eye comically enlarged,\nwarm watercolor illustration style, soft golden hour lighting on face, traditional watercolor texture, gentle warm tones,\nexpression: intense curiosity, wonder, fascination, discovery moment,\nclean warm-toned background, portrait emphasis, emotion reference sheet"
+    }
+  },
+  "41": {
+    "class_type": "CLIPTextEncode",
+    "_meta": { "title": "Ref04 Negative" },
+    "inputs": {
+      "clip": ["3", 1],
+      "text": "photorealistic, 3d render, anime screencap, chibi, adult face, mature expression, makeup, dark atmosphere, horror, extra fingers, deformed hands, bad anatomy, blurry, low quality, watermark, signature, text, logo, neutral expression, bored expression, generic cute face, oversaturated"
+    }
+  },
+  "42": {
+    "class_type": "EmptyLatentImage",
+    "_meta": { "title": "Ref04 Latent 1024x1024" },
+    "inputs": { "width": 1024, "height": 1024, "batch_size": 1 }
+  },
+  "43": {
+    "class_type": "KSampler",
+    "_meta": { "title": "Ref04 KSampler - 표정 호기심" },
+    "inputs": {
+      "model": ["3", 0],
+      "positive": ["40", 0],
+      "negative": ["41", 0],
+      "latent_image": ["42", 0],
+      "seed": 100004,
+      "steps": 35,
+      "cfg": 7.0,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1.0
+    }
+  },
+  "44": {
+    "class_type": "VAEDecode",
+    "inputs": { "samples": ["43", 0], "vae": ["2", 0] }
+  },
+  "45": {
+    "class_type": "SaveImage",
+    "_meta": { "title": "Save Ref04 표정 호기심" },
+    "inputs": {
+      "images": ["44", 0],
+      "filename_prefix": "choeun/ref04-expression-curiosity"
+    }
+  },
+
+  "50": {
+    "class_type": "CLIPTextEncode",
+    "_meta": { "title": "Ref05 Positive - 미시세계 정면 전신" },
+    "inputs": {
+      "clip": ["4", 1],
+      "text": "masterpiece, best quality, front view, full body,\n7-year-old Korean girl miniaturized to microscopic scale, short bobbed black hair with sky-blue bead braid now subtly reflecting prismatic light, round face with large dark brown eyes reflecting rainbow spectrum, wearing a pastel mint field-explorer vest that shimmers with iridescent light particles, cream shirt with faint light refractions visible on fabric, khaki cargo shorts, mismatched socks, worn brown boots,\nbrass magnifying glass around neck now glowing faintly with captured light,\nstanding inside a water droplet, surrounded by prismatic rainbow light refractions, transparent curved water walls visible in background, floating light particles and water molecules around her, microscopic scale environment,\nsurreal dreamlike atmosphere, iridescent color palette of rainbow and transparent blue, volumetric prismatic lighting, light spectrum effects, ethereal glow, hyper-detailed microscopic world,\nthe character retains her warm realistic proportions while the world around her is fantastically surreal"
+    }
+  },
+  "51": {
+    "class_type": "CLIPTextEncode",
+    "_meta": { "title": "Ref05 Negative" },
+    "inputs": {
+      "clip": ["4", 1],
+      "text": "photorealistic photograph, flat illustration, chibi, super deformed, adult proportions, mature face, makeup, dark gothic atmosphere, horror, gore, extra fingers, extra limbs, deformed hands, bad anatomy, blurry, low quality, watermark, signature, text, logo, monochrome, desaturated, generic fantasy, typical fairy tale, mundane lighting, watercolor style, paper texture"
+    }
+  },
+  "52": {
+    "class_type": "EmptyLatentImage",
+    "_meta": { "title": "Ref05 Latent 896x1152" },
+    "inputs": { "width": 896, "height": 1152, "batch_size": 1 }
+  },
+  "53": {
+    "class_type": "KSampler",
+    "_meta": { "title": "Ref05 KSampler - 미시세계 정면" },
+    "inputs": {
+      "model": ["4", 0],
+      "positive": ["50", 0],
+      "negative": ["51", 0],
+      "latent_image": ["52", 0],
+      "seed": 100005,
+      "steps": 40,
+      "cfg": 6.5,
+      "sampler_name": "dpmpp_sde",
+      "scheduler": "karras",
+      "denoise": 1.0
+    }
+  },
+  "54": {
+    "class_type": "VAEDecode",
+    "inputs": { "samples": ["53", 0], "vae": ["2", 0] }
+  },
+  "55": {
+    "class_type": "SaveImage",
+    "_meta": { "title": "Save Ref05 미시세계 정면" },
+    "inputs": {
+      "images": ["54", 0],
+      "filename_prefix": "choeun/ref05-front-surreal"
+    }
+  }
+}

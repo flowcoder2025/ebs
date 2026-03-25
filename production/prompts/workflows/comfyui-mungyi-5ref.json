@@ -1,0 +1,289 @@
+{
+  "_meta": {
+    "title": "WI-006 뭉이 레퍼런스 5종 생성",
+    "description": "뭉이(물곰 타디그레이드) 캐릭터 레퍼런스 이미지 5종을 생성하는 ComfyUI API 워크플로우. 정면/측면/탑뷰 + 걷기 동작 + 턴어라운드 시트.",
+    "version": "1.0.0",
+    "character": "mungyi",
+    "outputs": [
+      "ref01-front-surreal (정면 전신 미시세계)",
+      "ref02-side-surreal (측면 전신 미시세계)",
+      "ref03-topdown-surreal (탑다운 뷰 미시세계)",
+      "ref04-walking-surreal (뒤뚱걷기 동작)",
+      "ref05-turnaround-surreal (4면 턴어라운드 시트)"
+    ]
+  },
+
+  "1": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "dreamshaperXL_v21TurboDPMSDE.safetensors"
+    }
+  },
+  "2": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "sdxl_vae.safetensors"
+    }
+  },
+  "3": {
+    "class_type": "LoraLoader",
+    "_meta": { "title": "LoRA - Prismatic Surreal (미시세계)" },
+    "inputs": {
+      "model": ["1", 0],
+      "clip": ["1", 1],
+      "lora_name": "prismatic_surreal_sdxl.safetensors",
+      "strength_model": 0.7,
+      "strength_clip": 0.7
+    }
+  },
+
+  "10": {
+    "class_type": "CLIPTextEncode",
+    "_meta": { "title": "Ref01 Positive - 정면 전신 미시세계" },
+    "inputs": {
+      "clip": ["3", 1],
+      "text": "masterpiece, best quality, character reference sheet, front view, full body,\ncute tardigrade character (water bear), round plump barrel-shaped body with semi-transparent translucent skin, soft internal bioluminescent glow visible through the body like light through frosted glass, body surface has prismatic soap-bubble iridescence with subtle rainbow refractions shifting across the skin,\n8 short stubby legs arranged symmetrically in 4 pairs along the barrel body, each leg ending in tiny rounded translucent claws, the front pair of legs slightly raised in a friendly greeting gesture,\nlarge round friendly dark eyes with gentle upward curve suggesting a calm perpetual smile, a subtle sparkle highlight in each eye reflecting the prismatic world, small round mouth in a content expression, smooth head blending into body without neck,\nbody color: translucent pale blue-green base with rainbow prismatic light playing across the surface, internal structures faintly visible as soft warm glowing shapes,\nstanding on a prismatic rainbow surface inside a water droplet, floating light particles and water molecules around,\nsurreal microscopic world, iridescent volumetric lighting, prismatic color palette with dominant transparent blues and rainbow accents,\ncharacter design emphasis, clean composition with subtle microscopic world background, creature design reference sheet"
+    }
+  },
+  "11": {
+    "class_type": "CLIPTextEncode",
+    "_meta": { "title": "Ref01 Negative" },
+    "inputs": {
+      "clip": ["3", 1],
+      "text": "photorealistic microscope photo, realistic tardigrade, scary bug, insect horror, dark creepy creature, too many eyes, hairy body, slimy gross texture, opaque solid body with no translucency, human face on animal body, bipedal standing upright, wearing clothes, anthropomorphic with human proportions, chibi anime mascot with hair bow, generic cartoon blob, dark atmosphere, horror, extra limbs beyond 8 legs, deformed, blurry, low quality, watermark, signature, text, logo, oversaturated neon, monochrome, flat coloring with no transparency effect"
+    }
+  },
+  "12": {
+    "class_type": "EmptyLatentImage",
+    "_meta": { "title": "Ref01 Latent 896x1152" },
+    "inputs": { "width": 896, "height": 1152, "batch_size": 1 }
+  },
+  "13": {
+    "class_type": "KSampler",
+    "_meta": { "title": "Ref01 KSampler - 정면 전신" },
+    "inputs": {
+      "model": ["3", 0],
+      "positive": ["10", 0],
+      "negative": ["11", 0],
+      "latent_image": ["12", 0],
+      "seed": 300001,
+      "steps": 40,
+      "cfg": 6.5,
+      "sampler_name": "dpmpp_sde",
+      "scheduler": "karras",
+      "denoise": 1.0
+    }
+  },
+  "14": {
+    "class_type": "VAEDecode",
+    "inputs": { "samples": ["13", 0], "vae": ["2", 0] }
+  },
+  "15": {
+    "class_type": "SaveImage",
+    "_meta": { "title": "Save Ref01 정면" },
+    "inputs": {
+      "images": ["14", 0],
+      "filename_prefix": "mungyi/ref01-front-surreal"
+    }
+  },
+
+  "20": {
+    "class_type": "CLIPTextEncode",
+    "_meta": { "title": "Ref02 Positive - 측면 전신 미시세계" },
+    "inputs": {
+      "clip": ["3", 1],
+      "text": "masterpiece, best quality, character reference sheet, side view, full body, profile view,\ncute tardigrade character seen from the side, round plump barrel-shaped semi-transparent body clearly showing the elongated oval profile, translucent skin with prismatic iridescence and soft internal glow,\n8 stubby legs visible from the side: 4 legs on the near side arranged in evenly spaced pairs from front to back, each short and rounded, the walking pair showing a mid-stride waddle position with alternating legs lifted,\nlarge round eye visible in profile with gentle curve and sparkle, small round mouth, smooth rounded head profile blending into barrel body,\nbody color from the side: translucent pale blue-green with light passing through and creating prismatic rainbow caustic patterns on the ground beneath,\nwaddling gait frozen mid-step on a prismatic surface inside a water droplet,\nsurreal microscopic world, iridescent volumetric side lighting showing the translucency of the body beautifully, prismatic color palette,\ncharacter design emphasis, clean composition, side profile reference"
+    }
+  },
+  "21": {
+    "class_type": "CLIPTextEncode",
+    "_meta": { "title": "Ref02 Negative" },
+    "inputs": {
+      "clip": ["3", 1],
+      "text": "photorealistic, realistic tardigrade, scary bug, insect horror, dark creepy creature, hairy body, opaque solid body, human proportions, wearing clothes, chibi anime, generic cartoon, dark atmosphere, horror, extra limbs, deformed, blurry, low quality, watermark, signature, text, logo, facing camera, front view, monochrome, flat coloring"
+    }
+  },
+  "22": {
+    "class_type": "EmptyLatentImage",
+    "_meta": { "title": "Ref02 Latent 896x1152" },
+    "inputs": { "width": 896, "height": 1152, "batch_size": 1 }
+  },
+  "23": {
+    "class_type": "KSampler",
+    "_meta": { "title": "Ref02 KSampler - 측면 전신" },
+    "inputs": {
+      "model": ["3", 0],
+      "positive": ["20", 0],
+      "negative": ["21", 0],
+      "latent_image": ["22", 0],
+      "seed": 300002,
+      "steps": 40,
+      "cfg": 6.5,
+      "sampler_name": "dpmpp_sde",
+      "scheduler": "karras",
+      "denoise": 1.0
+    }
+  },
+  "24": {
+    "class_type": "VAEDecode",
+    "inputs": { "samples": ["23", 0], "vae": ["2", 0] }
+  },
+  "25": {
+    "class_type": "SaveImage",
+    "_meta": { "title": "Save Ref02 측면" },
+    "inputs": {
+      "images": ["24", 0],
+      "filename_prefix": "mungyi/ref02-side-surreal"
+    }
+  },
+
+  "30": {
+    "class_type": "CLIPTextEncode",
+    "_meta": { "title": "Ref03 Positive - 탑다운 뷰 미시세계" },
+    "inputs": {
+      "clip": ["3", 1],
+      "text": "masterpiece, best quality, character reference sheet, top-down view, bird's eye view, looking straight down,\ncute tardigrade character seen from directly above, round plump barrel-shaped semi-transparent body viewed from top showing the oval dorsal outline, translucent skin with prismatic soap-bubble iridescence viewed from above creating concentric rainbow rings on the body surface,\n8 stubby legs splayed outward symmetrically: 4 pairs visible from above, left and right sides mirroring each other perfectly, each leg ending in tiny rounded claws, legs spread in a relaxed standing position like a starfish-meets-barrel shape,\nthe top of the round head visible at one end of the barrel shape, large round eyes partially visible peeking from the front edge,\ninternal structures visible through the translucent body from above: soft glowing warm shapes arranged symmetrically inside, like looking into a living lantern,\nresting on a translucent prismatic surface, the creature's body casting rainbow caustic light patterns on the surface below it due to its translucency,\nsurreal microscopic world, top-down lighting creating beautiful translucency effects, iridescent color palette,\ncharacter design emphasis, anatomical reference from above"
+    }
+  },
+  "31": {
+    "class_type": "CLIPTextEncode",
+    "_meta": { "title": "Ref03 Negative" },
+    "inputs": {
+      "clip": ["3", 1],
+      "text": "photorealistic, realistic tardigrade, scanning electron microscope image, scary bug, dark creepy, hairy body, opaque solid body, human proportions, chibi anime, dark atmosphere, horror, extra limbs, deformed, blurry, low quality, watermark, signature, text, logo, side view, front view, monochrome, flat coloring, no translucency"
+    }
+  },
+  "32": {
+    "class_type": "EmptyLatentImage",
+    "_meta": { "title": "Ref03 Latent 1024x1024" },
+    "inputs": { "width": 1024, "height": 1024, "batch_size": 1 }
+  },
+  "33": {
+    "class_type": "KSampler",
+    "_meta": { "title": "Ref03 KSampler - 탑다운 뷰" },
+    "inputs": {
+      "model": ["3", 0],
+      "positive": ["30", 0],
+      "negative": ["31", 0],
+      "latent_image": ["32", 0],
+      "seed": 300003,
+      "steps": 40,
+      "cfg": 6.0,
+      "sampler_name": "dpmpp_sde",
+      "scheduler": "karras",
+      "denoise": 1.0
+    }
+  },
+  "34": {
+    "class_type": "VAEDecode",
+    "inputs": { "samples": ["33", 0], "vae": ["2", 0] }
+  },
+  "35": {
+    "class_type": "SaveImage",
+    "_meta": { "title": "Save Ref03 탑다운" },
+    "inputs": {
+      "images": ["34", 0],
+      "filename_prefix": "mungyi/ref03-topdown-surreal"
+    }
+  },
+
+  "40": {
+    "class_type": "CLIPTextEncode",
+    "_meta": { "title": "Ref04 Positive - 뒤뚱걷기 동작" },
+    "inputs": {
+      "clip": ["3", 1],
+      "text": "masterpiece, best quality, character action pose, full body, three-quarter view,\ncute tardigrade character waddling forward in an adorable clumsy walk, round plump barrel-shaped semi-transparent body tilting slightly side to side with each step, prismatic iridescence rippling across the translucent skin with each movement,\n8 stubby legs in an alternating walking pattern: the front-right and back-left pairs lifted mid-step while front-left and back-right pairs planted firmly, creating a characteristic slow wobbling gait, tiny rounded claws gripping the surface,\nlarge round friendly eyes looking ahead with a calm welcoming expression, small round mouth curved in a gentle content smile, overall body language: unhurried and confident, a reliable guide taking its time,\nslight motion blur on the lifted legs suggesting gentle movement, small prismatic light particles kicked up with each step,\nwalking across a rainbow prismatic light path inside a water droplet, floating water molecules in the background,\nsurreal microscopic world, warm iridescent volumetric lighting, the translucent body catching and scattering light beautifully with each wobble,\ndynamic but gentle movement, character personality through locomotion"
+    }
+  },
+  "41": {
+    "class_type": "CLIPTextEncode",
+    "_meta": { "title": "Ref04 Negative" },
+    "inputs": {
+      "clip": ["3", 1],
+      "text": "photorealistic, realistic tardigrade, scary bug, running fast, aggressive charge, static standing still, dark creepy, opaque solid body, human bipedal walk, chibi anime, dark atmosphere, horror, extra limbs, deformed, blurry, low quality, watermark, signature, text, logo, monochrome, flat coloring, rigid stiff pose"
+    }
+  },
+  "42": {
+    "class_type": "EmptyLatentImage",
+    "_meta": { "title": "Ref04 Latent 1152x896" },
+    "inputs": { "width": 1152, "height": 896, "batch_size": 1 }
+  },
+  "43": {
+    "class_type": "KSampler",
+    "_meta": { "title": "Ref04 KSampler - 뒤뚱걷기" },
+    "inputs": {
+      "model": ["3", 0],
+      "positive": ["40", 0],
+      "negative": ["41", 0],
+      "latent_image": ["42", 0],
+      "seed": 300004,
+      "steps": 40,
+      "cfg": 6.5,
+      "sampler_name": "dpmpp_sde",
+      "scheduler": "karras",
+      "denoise": 1.0
+    }
+  },
+  "44": {
+    "class_type": "VAEDecode",
+    "inputs": { "samples": ["43", 0], "vae": ["2", 0] }
+  },
+  "45": {
+    "class_type": "SaveImage",
+    "_meta": { "title": "Save Ref04 뒤뚱걷기" },
+    "inputs": {
+      "images": ["44", 0],
+      "filename_prefix": "mungyi/ref04-walking-surreal"
+    }
+  },
+
+  "50": {
+    "class_type": "CLIPTextEncode",
+    "_meta": { "title": "Ref05 Positive - 턴어라운드 시트" },
+    "inputs": {
+      "clip": ["3", 1],
+      "text": "masterpiece, best quality, character turnaround sheet, multiple views on single image, model sheet,\ncute tardigrade character shown in 4 angles arranged horizontally: front view, right side view, back view, left side view,\nconsistent design across all views: round plump barrel-shaped semi-transparent body with prismatic iridescence, 8 short stubby legs in 4 symmetrical pairs, large round friendly dark eyes (visible in front and side views), small round mouth, smooth head blending into barrel body,\ntranslucent pale blue-green body color consistent across all angles, soft internal glow visible from every direction, prismatic rainbow light playing across the surface,\neach view clearly showing the leg arrangement from that angle: front view (4 legs visible - 2 left 2 right), side view (4 legs visible on near side), back view (4 legs visible - 2 left 2 right, no face), left side view (4 legs on near side),\nneutral standing pose consistent across all 4 views, on a simple reflective prismatic surface,\nclean white background with subtle prismatic light effects, character design turnaround reference sheet, consistent proportions across all views,\ntechnical reference quality, suitable for LoRA training and animation reference"
+    }
+  },
+  "51": {
+    "class_type": "CLIPTextEncode",
+    "_meta": { "title": "Ref05 Negative" },
+    "inputs": {
+      "clip": ["3", 1],
+      "text": "photorealistic, realistic tardigrade, scary bug, inconsistent design between views, different sizes, different colors between views, dark atmosphere, horror, opaque solid body, human proportions, chibi anime, extra limbs, deformed, blurry, low quality, watermark, signature, text, logo, complex background, single view only, monochrome, flat coloring, action pose"
+    }
+  },
+  "52": {
+    "class_type": "EmptyLatentImage",
+    "_meta": { "title": "Ref05 Latent 1536x640 (초와이드 4뷰)" },
+    "inputs": { "width": 1536, "height": 640, "batch_size": 1 }
+  },
+  "53": {
+    "class_type": "KSampler",
+    "_meta": { "title": "Ref05 KSampler - 턴어라운드 시트" },
+    "inputs": {
+      "model": ["3", 0],
+      "positive": ["50", 0],
+      "negative": ["51", 0],
+      "latent_image": ["52", 0],
+      "seed": 300005,
+      "steps": 45,
+      "cfg": 7.0,
+      "sampler_name": "dpmpp_sde",
+      "scheduler": "karras",
+      "denoise": 1.0
+    }
+  },
+  "54": {
+    "class_type": "VAEDecode",
+    "inputs": { "samples": ["53", 0], "vae": ["2", 0] }
+  },
+  "55": {
+    "class_type": "SaveImage",
+    "_meta": { "title": "Save Ref05 턴어라운드" },
+    "inputs": {
+      "images": ["54", 0],
+      "filename_prefix": "mungyi/ref05-turnaround-surreal"
+    }
+  }
+}
