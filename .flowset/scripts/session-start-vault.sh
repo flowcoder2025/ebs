@@ -116,6 +116,38 @@ ${vc}"
   fi
 fi
 
+# --- 5. RAG 컨텍스트 로드 (로컬 우선, Vault 폴백) ---
+if [[ -d ".claude/memory/rag" ]]; then
+  rag_context=""
+  for f in .claude/memory/rag/*.md; do
+    [[ -f "$f" ]] || continue
+    fname=$(basename "$f")
+    content=$(head -50 "$f" 2>/dev/null)
+    [[ -n "$content" ]] && rag_context+="
+--- ${fname} ---
+${content}
+"
+  done
+  if [[ -n "$rag_context" ]]; then
+    context+="
+[VAULT RAG — 프로젝트 참조 컨텍스트]${rag_context}"
+  fi
+elif [[ -n "${VAULT_PROJECT_NAME:-}" ]]; then
+  rag_files="00-timeline 01-characters 02-scenes 03-pipeline 04-submission decisions-log"
+  rag_context=""
+  for fname in $rag_files; do
+    content=$(_vread "${VAULT_PROJECT_NAME}/rag/${fname}.md" 2>/dev/null | head -50)
+    [[ -n "$content" && "$content" != *'"errorCode"'* ]] && rag_context+="
+--- ${fname}.md ---
+${content}
+"
+  done
+  if [[ -n "$rag_context" ]]; then
+    context+="
+[VAULT RAG — 프로젝트 참조 컨텍스트]${rag_context}"
+  fi
+fi
+
 # 컨텍스트가 비어있으면 종료
 if [[ -z "$context" ]]; then
   exit 0
